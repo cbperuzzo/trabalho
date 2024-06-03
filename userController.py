@@ -1,44 +1,39 @@
+from modelo.User import User
+
 curuser = ""  #não poder usuário com nome vazio, não podem usuários com o mesmo nome
 admin = False
 
-usuarios = list()
+usuarios = list() #vai vir do banco de dados
 
-def index():
+def indexUser(): # essa função gera valores para "curuser" e "admin"
     while True:
         print("registrar [reg] - login [log]")
         res = input().upper().strip()
 
         if(res == "REG"):
-            register()
-            break
+            if register():
+                break
         elif(res == "LOG"):
-            log()
-            break
+            if log():
+                break
         else:
             "ação não encontrada, tente novamente"
 
-def log():  #esse código ta muito feio e ruim de entender, dps tem que mudar
-    vol = False
-    loop = True
-    while loop:
+def log():
+    while True:
         nome = input("nome:").upper().strip()
         senha = input("senha:")
 
-        for i in range(0,len(usuarios),1):
+        for i in range(0, len(usuarios), 1):
             if nome == (usuarios[i].nome).upper().strip():
                 if senha == usuarios[i].senha:
                     curuser = usuarios[i].nome
                     admin = usuarios[i].admin
-                    loop = False
-                    break
-        if loop:
-            print("usuário ou senha inválidos")
-            res = input("tentar novamente [qualquer coisa]\nvoltar[vol]")
-            if res.upper().strip() == "VOL":
-                loop = False
-                vol = True
-    if vol:
-        index()
+                    return True
+        print("usuário ou senha inválidos")
+        res = input("voltar [vol]\ntentar outro [any]")
+        if res.strip().upper() == "VOL":
+            return False
 def register():
     while True:
         nome = input("nome:")
@@ -47,9 +42,18 @@ def register():
             if nome.upper().strip() == (usr.nome).upper().strip():
                 valid = False
         if valid:
-            senha = print("nome disponível\nsenha:")
+            senha = input("nome disponível\nsenha:")
+
+            nusr = User(nome,senha,False)
+
             admin = False
             curuser = nome
-            # cria um objeto novo e salva ele no "banco de dados" (ainda não da pra fazer)
+
+            nusr.save()
+
+            return True
         else:
-            print("nome de usuário ja existe, tente outro")
+            print("nome de usuário ja existe")
+            res = input("voltar [vol]\ntentar outro [any]")
+            if res.strip().upper() == "VOL":
+                return False

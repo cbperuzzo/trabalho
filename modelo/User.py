@@ -4,4 +4,7 @@ class User:
         this.senha = senha
         this.admin = admin
 
+    def save(self): #adiciona o objeto no "banco de dados"
+        pass
+
     
