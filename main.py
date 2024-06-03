@@ -1,4 +1,4 @@
-curuser = ""  #não poder usuário com nome vazio
+curuser = ""  #não poder usuário com nome vazio, não podem usuários com o mesmo nome
 admin = False
 
 usuarios = list()
@@ -30,6 +30,7 @@ def log():
         if find:
             break
         else:
-            print("usuário ou senha inválido")
-index()
+            print("usuário ou senha inválidos")
+            #tentar novamente ou voltar
+
 
