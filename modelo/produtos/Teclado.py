@@ -6,7 +6,7 @@ class Teclado(Produto):
         modelo: str, 
         preco: float, 
         cor: str, 
-        tipo: 'mecânico' or 'membrana', 
+        tipo: 'mecânico' or 'membrana',
         milh_toques: int
         ):
 
