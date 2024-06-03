@@ -6,7 +6,7 @@
 
 def print_hi(name):
     # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # tome cone
+    print(f'Hi, aranha')  # tome cone
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
