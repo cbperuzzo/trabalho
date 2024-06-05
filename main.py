@@ -1,4 +1,4 @@
-from controllers.userController import curuser,indexUser,admin
+from controllers.userController import global_vars , indexUser
 
 indexUser()
-print('.',curuser, admin)
+print('.',global_vars['curuser'], global_vars['admin'])

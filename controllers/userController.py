@@ -1,7 +1,9 @@
 from modelo.User import User
 
-# curuser = ""  #não poder usuário com nome vazio, não podem usuários com o mesmo nome
-# admin = True
+global_vars = {
+    'curuser' : "",  #não poder usuário com nome vazio, não podem usuários com o mesmo nome
+    'admin' : False
+}
 
 def indexUser(): #gera maneiras de acessar a aplicação, associando um valor válido a curuser e definindo admin como true ou false
     while True:
@@ -39,7 +41,7 @@ def register():
         try:
             nuser = User(nome, senha)
             nuser.save()
-            logDone(nuser.nome)
+            logDone(nuser.nome, nuser.admin)
             return True
         except ValueError as err:
             print("algo deu errado:",err)
@@ -47,9 +49,7 @@ def register():
             if res.strip().upper() == "VOL":
                 return False
 
-def logDone(nome, adm):
-    print(nome)
-    print('curuser 1:',curuser)
-    curuser = nome
-    print('curuser 2:',curuser)
-    admin = adm
+def logDone(nome: str, adm: bool) -> None:
+    # global global_vars
+    global_vars['curuser'] = nome
+    global_vars['admin'] = adm
