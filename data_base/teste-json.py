@@ -12,4 +12,4 @@ with open('data_base/usuarios.json', 'w', encoding='utf-8') as user_file:
 # Depois, leia o arquivo
 with open('data_base/usuarios.json', 'r', encoding='utf-8') as user_file:
     all_users = json.load(user_file)
-    print(all_users)
+    print(json.dumps(all_users, indent=4, ensure_ascii=False))
