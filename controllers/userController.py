@@ -23,7 +23,8 @@ def log():
         senha = input("senha:")
         try:
             pass
-            #valid = User.verify_loggin(nome,senha)
+            #User.verify_loggin(nome,senha)
+            #nuser = User(nome, senha)
             #nuser.save()
             #logDone(nuser)
             #return True
