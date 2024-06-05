@@ -1,7 +1,7 @@
-from ..modelo.User import User
+from modelo.User import User
 
-curuser = ""  #não poder usuário com nome vazio, não podem usuários com o mesmo nome
-admin = False
+# curuser = ""  #não poder usuário com nome vazio, não podem usuários com o mesmo nome
+# admin = True
 
 def indexUser(): #gera maneiras de acessar a aplicação, associando um valor válido a curuser e definindo admin como true ou false
     while True:
@@ -16,17 +16,15 @@ def indexUser(): #gera maneiras de acessar a aplicação, associando um valor v�
                 break
         else:
             "ação não encontrada, tente novamente"
-    print("--------\nusuário atual: {}\nstatus de admin: {}".format(curuser,admin))
 
 def log():
     while True:
         nome = input("nome:")
         senha = input("senha:")
         try:
-            User.verify_loggin(nome,senha)
-            nuser = User(nome, senha)
-            nuser.save()
-            logDone(nuser)
+            adm = User.verify_login(nome,senha)
+            
+            logDone(nome, adm)
             return True
         except ValueError as err:
             print("algo deu errado:",err)
@@ -41,7 +39,7 @@ def register():
         try:
             nuser = User(nome, senha)
             nuser.save()
-            logDone(nuser)
+            logDone(nuser.nome)
             return True
         except ValueError as err:
             print("algo deu errado:",err)
@@ -49,8 +47,9 @@ def register():
             if res.strip().upper() == "VOL":
                 return False
 
-def logDone(usr: User):
-    curuser = usr.nome
-    admin = usr.admin
-
-
+def logDone(nome, adm):
+    print(nome)
+    print('curuser 1:',curuser)
+    curuser = nome
+    print('curuser 2:',curuser)
+    admin = adm
