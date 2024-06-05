@@ -18,9 +18,8 @@ class User:
             'admin': False
         }
 
-        with open('data_base/usuarios.json', 'r') as read_file:
-            all_users = json.load(read_file)
-        
+        all_users = User.get_all_users()
+
         if User.find_user_in_database(user_login['username']) != -1:
             raise ValueError('Nome de usuário já está sendo usado.')
         
@@ -31,8 +30,7 @@ class User:
 
     @staticmethod
     def find_user_in_database(username: str) -> int:
-        with open('data_base/usuarios.json', 'r') as read_file:
-            all_users = json.load(read_file)
+        all_users = User.get_all_users()
         
         for registered_user in all_users:
             if registered_user['username'] == username:
@@ -41,10 +39,11 @@ class User:
         return -1
 
     @staticmethod
-    def verify_login(username, password) -> bool:
+    def verify_login(username: str, password: str) -> bool:
         all_users = User.get_all_users()
 
         user_index = User.find_user_in_database(username)
+        
         if user_index == -1:
             raise ValueError('Nome de usuário não cadastrado.')
         if all_users[user_index]['password'] != password:

@@ -7,7 +7,7 @@ global_vars = {
 
 def indexUser(): #gera maneiras de acessar a aplicação, associando um valor válido a curuser e definindo admin como true ou false
     while True:
-        print("registrar [reg] - login [log]")
+        print("Registrar [reg] - Login [log]")
         res = input().upper().strip()
 
         if(res == "REG"):
@@ -17,16 +17,16 @@ def indexUser(): #gera maneiras de acessar a aplicação, associando um valor v�
             if log():
                 break
         else:
-            "ação não encontrada, tente novamente"
+            "Ação não encontrada, tente novamente"
 
 def log():
     while True:
-        nome = input("nome:")
-        senha = input("senha:")
+        nome = input("nome: ")
+        senha = input("senha: ")
         try:
-            adm = User.verify_login(nome,senha)
+            admin = User.verify_login(nome,senha)
             
-            logDone(nome, adm)
+            logDone(nome, admin)
             return True
         except ValueError as err:
             print("algo deu errado:",err)
@@ -44,12 +44,11 @@ def register():
             logDone(nuser.nome, nuser.admin)
             return True
         except ValueError as err:
-            print("algo deu errado:",err)
+            print("Algo deu errado:",err)
             res = input("voltar [vol] - tentar denovo [any]")
             if res.strip().upper() == "VOL":
                 return False
 
-def logDone(nome: str, adm: bool) -> None:
-    # global global_vars
+def logDone(nome: str, admin: bool) -> None:
     global_vars['curuser'] = nome
-    global_vars['admin'] = adm
+    global_vars['admin'] = admin
