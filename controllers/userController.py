@@ -3,9 +3,7 @@ from ..modelo.User import User
 curuser = ""  #não poder usuário com nome vazio, não podem usuários com o mesmo nome
 admin = False
 
-usuarios = list() #vai vir do banco de dados
-
-def indexUser(): # essa função gera valores para "curuser" e "admin"
+def indexUser(): #gera maneiras de acessar a aplicação, associando um valor válido a curuser e definindo admin como true ou false
     while True:
         print("registrar [reg] - login [log]")
         res = input().upper().strip()
@@ -21,31 +19,46 @@ def indexUser(): # essa função gera valores para "curuser" e "admin"
 
 def log():
     while True:
-        nome = input("nome:").upper().strip()
+        nome = input("nome:")
         senha = input("senha:")
+        try:
+            pass
+            #valid = User.verify_loggin(nome,senha)
+            #nuser.save()
+            #logDone(nuser)
+            #return True
+        except ValueError as err:
+            print("algo deu errado:",err)
+            res = input("voltar [vol] - tentar denovo [any]")
+            if res.strip().upper() == "VOL":
+                return False
 
-        for i in range(0, len(usuarios), 1):
-            if nome == (usuarios[i].nome).upper().strip():
-                if senha == usuarios[i].senha:
-                    curuser = usuarios[i].nome
-                    admin = usuarios[i].admin
-                    return True
-        print("usuário ou senha inválidos")
-        res = input("voltar [vol]\ntentar outro [any]")
-        if res.strip().upper() == "VOL":
-            return False
+
+""""       valid = User.getWhereUserName(nome).senha == senha
+        if valid:
+            return True
+        else:
+            print("usuario ou senha invalidos")
+            res = input("voltar [vol] - tentar denovo [any]")
+            if res.strip().upper() == "VOL":
+                return False """
 def register():
     while True:
         nome = input("nome:")
-        valid = (User.getWhereUserName(nome) == "") and (nome != "")
-        if valid:
-            print("nome valido")
-            senha = input("senha:")
-            nuser = User(nome,senha)
+        senha = input("senha:") #testar se a senha é vazia dps
+        try:
+            nuser = User(nome, senha)
             nuser.save()
-        else:
-            print("esse nome ja existe ou é vaziu , tente novamente")
-            print("caso deseje voltar ")
+            logDone(nuser)
+            return True
+        except ValueError as err:
+            print("algo deu errado:",err)
+            res = input("voltar [vol] - tentar denovo [any]")
+            if res.strip().upper() == "VOL":
+                return False
 
+def logDone(usr: User):
+    curuser = usr.nome
+    admin = usr.admin
 
 
