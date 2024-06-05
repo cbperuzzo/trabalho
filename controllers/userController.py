@@ -23,31 +23,21 @@ def log():
         nome = input("nome:")
         senha = input("senha:")
         try:
-            pass
-            #User.verify_loggin(nome,senha)
-            #nuser = User(nome, senha)
-            #nuser.save()
-            #logDone(nuser)
-            #return True
+            User.verify_loggin(nome,senha)
+            nuser = User(nome, senha)
+            nuser.save()
+            logDone(nuser)
+            return True
         except ValueError as err:
             print("algo deu errado:",err)
             res = input("voltar [vol] - tentar denovo [any]")
             if res.strip().upper() == "VOL":
                 return False
 
-
-""""       valid = User.getWhereUserName(nome).senha == senha
-        if valid:
-            return True
-        else:
-            print("usuario ou senha invalidos")
-            res = input("voltar [vol] - tentar denovo [any]")
-            if res.strip().upper() == "VOL":
-                return False """
 def register():
     while True:
         nome = input("nome:")
-        senha = input("senha:") #testar se a senha é vazia dps
+        senha = input("senha:")
         try:
             nuser = User(nome, senha)
             nuser.save()
