@@ -1,4 +1,4 @@
-from modelo.User import User
+from modelo.user.User import User
 
 global_vars = {
     'curuser' : "",  #não poder usuário com nome vazio, não podem usuários com o mesmo nome

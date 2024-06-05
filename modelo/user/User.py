@@ -1,6 +1,8 @@
 import json
 from typing import List, Dict
 
+USERS_DB_PATH = 'data_base/usuarios.json'
+
 class User:
     def __init__(self, nome: str, senha: str, admin: bool = False):
         if senha == '':
@@ -25,7 +27,7 @@ class User:
         
         all_users.append(user_login)
         
-        with open('data_base/usuarios.json', 'w') as write_file:
+        with open(USERS_DB_PATH, 'w') as write_file:
             json.dump(all_users, write_file)
 
     @staticmethod
@@ -53,7 +55,7 @@ class User:
         
     @staticmethod
     def get_all_users() -> List[Dict[str, str]]:
-        with open('data_base/usuarios.json', 'r') as read_file:
+        with open(USERS_DB_PATH, 'r') as read_file:
             all_users = json.load(read_file)
         
         return all_users
