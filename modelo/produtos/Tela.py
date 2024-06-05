@@ -14,3 +14,12 @@ class Tela(Produto):
         self.polegadas = polegadas
         self.frequencia_hz = frequencia_hz
 
+    def save(self):
+        pass
+
+    @staticmethod
+    def getAll():
+        pass
+    @staticmethod
+    def getWhereModelo(str):
+        pass

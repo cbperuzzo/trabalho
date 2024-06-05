@@ -13,3 +13,12 @@ class Teclado(Produto):
         super().__init__(modelo, preco, cor)
         self.tipo = tipo
         self.milh_toques = milh_toques
+    def save(self):
+        pass
+
+    @staticmethod
+    def getAll():
+        pass
+    @staticmethod
+    def getWhereModelo(str):
+        pass

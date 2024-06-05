@@ -4,7 +4,13 @@ class User:
         this.senha = senha
         this.admin = admin
 
-    def save(self): #adiciona o objeto no "banco de dados"
+    def save(self):
         pass
 
-    
+    @staticmethod
+    def getAllUsers():
+        pass
+
+    @staticmethod
+    def getWhereUserName(str):
+        pass

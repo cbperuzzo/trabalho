@@ -14,3 +14,12 @@ class Mouse(Produto):
         self.sensibilidade_dpi = sensibilidade_dpi
         self.tamanho_cm = tamanho_cm
 
+    def save(self):
+        pass
+
+    @staticmethod
+    def getAll():
+        pass
+    @staticmethod
+    def getWhereModelo(str):
+        pass

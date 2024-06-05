@@ -11,3 +11,13 @@ class Produto:
         self.marca = marca
         self.preco = preco
         self.cor = cor
+
+    def save(self):
+        pass
+
+    @staticmethod
+    def getAll():
+        pass
+    @staticmethod
+    def getWhereModelo(str):
+        pass

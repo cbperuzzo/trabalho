@@ -37,23 +37,15 @@ def log():
 def register():
     while True:
         nome = input("nome:")
-        valid = True
-        for usr in usuarios:
-            if nome.upper().strip() == (usr.nome).upper().strip():
-                valid = False
+        valid = (User.getWhereUserName(nome) == "") and (nome != "")
         if valid:
-            senha = input("nome disponível\nsenha:")
-
-            nusr = User(nome,senha,False)
-
-            admin = False
-            curuser = nome
-
-            nusr.save()
-
-            return True
+            print("nome valido")
+            senha = input("senha:")
+            nuser = User(nome,senha)
+            nuser.save()
         else:
-            print("nome de usuário ja existe")
-            res = input("voltar [vol]\ntentar outro [any]")
-            if res.strip().upper() == "VOL":
-                return False
+            print("esse nome ja existe ou é vaziu , tente novamente")
+            print("caso deseje voltar ")
+
+
+
