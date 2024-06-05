@@ -16,6 +16,7 @@ def indexUser(): #gera maneiras de acessar a aplicação, associando um valor v�
                 break
         else:
             "ação não encontrada, tente novamente"
+    print("--------\nusuário atual: {}\nstatus de admin: {}".format(curuser,admin))
 
 def log():
     while True:
