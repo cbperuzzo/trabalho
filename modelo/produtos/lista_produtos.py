@@ -1,7 +1,5 @@
-from Produtos import Produto
+from Produtos import Produto, Teclado, Monitor, Mouse
 
 produtos = [
-    Produto('oi', 'oo', 20, 'red')
+    
 ]
-
-print(produtos[0].modelo)
