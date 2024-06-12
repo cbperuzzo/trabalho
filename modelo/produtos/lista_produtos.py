@@ -6,6 +6,6 @@ CATEGORIAS = [
     'teclado'
 ]
 
-PRODUCT_LIST = [
+product_list = [
     
 ]

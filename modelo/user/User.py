@@ -60,3 +60,6 @@ class User:
             all_users = json.load(read_file)
         
         return all_users
+    
+    def buy_product(product_id: int, quantity: int):
+        raise NotImplementedError()
