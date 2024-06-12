@@ -1,10 +1,13 @@
 from utils.text import print_line
 from modelo.produtos.lista_produtos import product_list, CATEGORIAS
 
+PRODUCT_DB_PATH = 'data_base/produtos.json'
+
 class Produto:
     def __init__(
         self,
-        id_num: int, #! talvez esse atributo não seja necessário
+        id_num: int,
+        categoria: str,
         modelo: str, 
         marca: str, 
         preco: float, 
@@ -30,9 +33,6 @@ class Produto:
         self.show_info()
         print_line(50)
     
-    @staticmethod
-    def get_all():
-        return product_list
 
     @staticmethod
     def show_all():
@@ -40,24 +40,56 @@ class Produto:
             produto.show_info()
     
     @staticmethod
-    def get_by_category(category: str):
-        produtos = []
+    def show_by_category(category: str):
         for produto in product_list:
             if produto.categoria == category:
-                produtos.append(produto)
-
-        return produtos
+                produto.show_info()
     
     @staticmethod
-    def show_by_category(category: str):
-        produtos = Produto.get_by_category(category)
-        for produto in produtos:
-            produto.show_info()
+    def get_products_as_objects():
+        all_products = []
+        with open(PRODUCT_DB_PATH, 'r') as read_file:
+            products_json = json.load(read_file)
+            for product_dict in products_json:
+
+                id_num = products_json.index(product_dict)
+                categoria = product_dict['categoria']
+                modelo = product_dict['modelo']
+                preco = float(product_dict['preco'])
+                cor = product_dict['cor']
+                
+                product_obj = None
+
+                if categoria == 'mouse':
+                    product_obj = Mouse(
+                        id_num, categoria, modelo, preco, cor, 
+                        product_dict['sensibilidade_dpi'], 
+                        float(product_dict['tamanho_cm'])
+                    )
+                    
+                elif categoria == 'teclado':
+                    product_obj = Teclado(
+                        id_num, categoria, modelo, preco, cor, 
+                        product_dict['tipo'], 
+                        int(product_dict['milh_toques'])
+                    )
+
+                elif categoria == 'monitor':
+                    product_obj = Monitor(
+                        id_num, categoria, modelo, preco, cor, 
+                        float(product_dict['polegadas']), 
+                        float(product_dict['frequencia_hz'])
+                    )
+                
+                all_products.append(product_obj)
+        
+        return all_products
 
 class Mouse(Produto):
     def __init__(
         self, 
         id_num: int,
+        categoria: str,
         modelo: str, 
         preco: float, 
         cor: str, 
@@ -77,6 +109,7 @@ class Teclado(Produto):
     def __init__(
         self,
         id_num: int,
+        categoria: str,
         modelo: str,
         preco: float,
         cor: str, 
@@ -96,6 +129,7 @@ class Monitor(Produto):
     def __init__(
         self, 
         id_num: int,
+        categoria: str,
         modelo: str, 
         preco: float, 
         cor: str, 

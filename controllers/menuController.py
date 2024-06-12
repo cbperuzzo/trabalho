@@ -41,9 +41,9 @@ def menu_option_is_not_valid(option: str, admin: bool):
 
     return option_out_of_range or without_permission
 
-def show_all_products(category: str = 'all'):
+def show_all_products():
     Produto.show_all()
-    print('Digite o número do produto e a quantidade desejada para adicionar ao carrinho')
+    ask_user_for_product()
 
 
 def show_category_products():
@@ -64,4 +64,11 @@ def show_category_products():
                 continue
         
         Produto.show_by_category(category)
+        ask_user_for_product()
 
+def ask_user_for_product():
+    print('Digite o número do produto e a quantidade desejada para adicionar ao carrinho')
+    print('Voltar - VOL')
+    entrada = input().strip()
+
+    if 
