@@ -1,13 +1,11 @@
 from utils.text import print_line
+import json
 
 PRODUCT_DB_PATH = 'data_base/produtos.json'
 CATEGORIAS = [
     'monitor',
     'mouse',
     'teclado'
-]
-product_list = [
-    
 ]
 
 class Produto:
@@ -32,19 +30,17 @@ class Produto:
         raise NotImplementedError()
 
     def show_info(self):
-        print(f'{self.id_num}) {self.preco}: {self.modelo} | {self.marca}')
+        print(f'{self.id_num} - {self.marca} | {self.modelo}')
+        print(f'R${self.preco:.2f}')
         print(f'Cor: {self.cor}')
-
-    def show_formated_info(self):
-        print_line(50)
-        self.show_info()
-        print_line(50)
     
 
     @staticmethod
     def show_all():
+        print_line(40)
         for produto in product_list:
             produto.show_info()
+            print_line(40)
     
     @staticmethod
     def show_by_category(category: str):
@@ -64,6 +60,7 @@ class Produto:
                 id_num = products_json.index(product_dict)
                 categoria = product_dict['categoria']
                 modelo = product_dict['modelo']
+                marca = product_dict['marca']
                 preco = float(product_dict['preco'])
                 cor = product_dict['cor']
                 
@@ -71,21 +68,21 @@ class Produto:
 
                 if categoria == 'mouse':
                     product_obj = Mouse(
-                        id_num, categoria, modelo, preco, cor, 
+                        id_num, categoria, modelo, marca, preco, cor, 
                         product_dict['sensibilidade_dpi'], 
                         float(product_dict['tamanho_cm'])
                     )
                     
                 elif categoria == 'teclado':
                     product_obj = Teclado(
-                        id_num, categoria, modelo, preco, cor, 
+                        id_num, categoria, modelo, marca,  preco, cor, 
                         product_dict['tipo'], 
                         int(product_dict['milh_toques'])
                     )
 
                 elif categoria == 'monitor':
                     product_obj = Monitor(
-                        id_num, categoria, modelo, preco, cor, 
+                        id_num, categoria, modelo, marca, preco, cor, 
                         float(product_dict['polegadas']), 
                         float(product_dict['frequencia_hz'])
                     )
@@ -100,16 +97,24 @@ class Mouse(Produto):
         id_num: int,
         categoria: str,
         modelo: str, 
+        marca: str,
         preco: float, 
         cor: str, 
         sensibilidade_dpi: int,
         tamanho_cm: float
         ):
 
-        super().__init__(id_num, modelo, preco, cor)
+        super().__init__(id_num, categoria, modelo, marca, preco, cor)
         self.sensibilidade_dpi = sensibilidade_dpi
         self.tamanho_cm = tamanho_cm
         self.categoria = 'mouse'
+    
+    def show_info(self):
+        print(f'{self.id_num} - Mouse {self.marca} | {self.modelo}')
+        print(f'R${self.preco:.2f}')
+        print(f'Cor: {self.cor}')
+        print(f'DPI: {self.sensibilidade_dpi}')
+        print(f'Tamanho: {self.tamanho_cm}cm')
 
     def save(self):
         raise NotImplementedError()
@@ -120,13 +125,14 @@ class Teclado(Produto):
         id_num: int,
         categoria: str,
         modelo: str,
+        marca: str,
         preco: float,
         cor: str, 
         tipo: 'mecânico' or 'membrana',
         milh_toques: int
         ):
 
-        super().__init__(id_num, modelo, preco, cor)
+        super().__init__(id_num, categoria, modelo, marca, preco, cor)
         self.tipo = tipo
         self.milh_toques = milh_toques
         self.categoria = 'teclado'
@@ -140,13 +146,14 @@ class Monitor(Produto):
         id_num: int,
         categoria: str,
         modelo: str, 
+        marca: str,
         preco: float, 
         cor: str, 
         polegadas: float, 
         frequencia_hz: float
         ):
 
-        super().__init__(id_num, modelo, preco, cor)
+        super().__init__(id_num, categoria, modelo, marca, preco, cor)
         self.polegadas = polegadas
         self.frequencia_hz = frequencia_hz
         self.categoria = 'monitor'
@@ -155,3 +162,4 @@ class Monitor(Produto):
         raise NotImplementedError()
 
 
+product_list = Produto.get_products_as_objects()

@@ -1,5 +1,11 @@
 [
     {
-
+        "categoria": "mouse",
+        "modelo": "Memmeanlion",
+        "marca": "Redragon",
+        "preco": 89.90,
+        "cor": "preto",
+        "sensibilidade_dpi": 4000,
+        "tamanho_cm": 6
     }
 ]
