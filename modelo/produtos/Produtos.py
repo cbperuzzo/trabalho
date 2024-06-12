@@ -1,3 +1,5 @@
+from utils.text import print_line
+
 class Produto:
     def __init__(
         self, 
@@ -14,6 +16,16 @@ class Produto:
 
     def save(self):
         pass
+
+    def show_info(self):
+        print(f'{self.preco}: {self.modelo} | {self.marca}')
+        print(f'Cor: {self.cor}')
+
+    def show_formated_info(self):
+        print_line(50)
+        self.show_info()
+        print_line(50)
+    
 
     @staticmethod
     def getAll():

@@ -1,8 +1,8 @@
 from modelo.user.User import User
+from typing import Dict
 
-global_vars = {
-    'curuser' : "",  #não poder usuário com nome vazio, não podem usuários com o mesmo nome
-    'admin' : False
+global_vars: Dict[str, User or None] = {
+    'user': None
 }
 
 def indexUser(): #gera maneiras de acessar a aplicação, associando um valor válido a curuser e definindo admin como true ou false
@@ -25,8 +25,8 @@ def log():
         senha = input("senha: ")
         try:
             admin = User.verify_login(nome,senha)
-            
-            logDone(nome, admin)
+            user = User(nome, senha, admin)
+            logDone(user)
             return True
         except ValueError as err:
             print("algo deu errado:",err)
@@ -41,7 +41,7 @@ def register():
         try:
             nuser = User(nome, senha)
             nuser.save()
-            logDone(nuser.nome, nuser.admin)
+            logDone(nuser)
             return True
         except ValueError as err:
             print("Algo deu errado:",err)
@@ -49,6 +49,5 @@ def register():
             if res.strip().upper() == "VOL":
                 return False
 
-def logDone(nome: str, admin: bool) -> None:
-    global_vars['curuser'] = nome
-    global_vars['admin'] = admin
+def logDone(user: User) -> None:
+    global_vars['user'] = user

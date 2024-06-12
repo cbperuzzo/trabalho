@@ -1,5 +1,11 @@
 from Produtos import Produto, Teclado, Monitor, Mouse
 
-produtos = [
+CATEGORIAS = [
+    'monitor',
+    'mouse',
+    'teclado'
+]
+
+PRODUCT_LIST = [
     
 ]

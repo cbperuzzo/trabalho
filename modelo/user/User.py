@@ -11,6 +11,7 @@ class User:
         self.nome = nome
         self.senha = senha
         self.admin = admin
+        self.carrinho = []
         
 
     def save(self) -> None:
