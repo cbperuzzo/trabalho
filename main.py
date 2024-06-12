@@ -7,5 +7,5 @@ indexUser()
 print(f'{global_vars['user'].nome} é {'admin' if global_vars['user'].admin else 'um usuário normal'}')
 
 # Inicia o menu da aplicação, onde o usuário escolhe o que fazer
-init_menu()
+init_menu(global_vars)
 

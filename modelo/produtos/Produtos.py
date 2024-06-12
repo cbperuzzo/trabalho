@@ -1,7 +1,14 @@
 from utils.text import print_line
-from modelo.produtos.lista_produtos import product_list, CATEGORIAS
 
 PRODUCT_DB_PATH = 'data_base/produtos.json'
+CATEGORIAS = [
+    'monitor',
+    'mouse',
+    'teclado'
+]
+product_list = [
+    
+]
 
 class Produto:
     def __init__(
@@ -41,6 +48,8 @@ class Produto:
     
     @staticmethod
     def show_by_category(category: str):
+        if category not in CATEGORIAS:
+            raise ValueError('Categoria não encontrada')
         for produto in product_list:
             if produto.categoria == category:
                 produto.show_info()
@@ -103,7 +112,7 @@ class Mouse(Produto):
         self.categoria = 'mouse'
 
     def save(self):
-        pass
+        raise NotImplementedError()
 
 class Teclado(Produto):
     def __init__(
@@ -123,7 +132,7 @@ class Teclado(Produto):
         self.categoria = 'teclado'
 
     def save(self):
-        pass
+        raise NotImplementedError()
 
 class Monitor(Produto):
     def __init__(
@@ -143,4 +152,6 @@ class Monitor(Produto):
         self.categoria = 'monitor'
 
     def save(self):
-        pass
+        raise NotImplementedError()
+
+

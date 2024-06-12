@@ -61,5 +61,9 @@ class User:
         
         return all_users
     
-    def buy_product(product_id: int, quantity: int):
+    # TODO implementar essa função e outra na classe Produto para verificar se o produto existe e tem estoque
+    def add_product_to_cart(self, product_id: int, quantity: int):
+        raise NotImplementedError()
+
+    def buy():
         raise NotImplementedError()
