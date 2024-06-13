@@ -62,12 +62,13 @@ class User:
         
         return all_users
     
-    # TODO implementar essa função e outra na classe Produto para verificar se o produto existe e tem estoque
     def add_product_to_cart(self, product_id: int, quantity: int):
-        if not Product.exists(product_id):
+        product_index = Product.find_product(product_id)
+
+        if product_index == -1:
             raise ProductNotFoundError(product_id)
 
-        stock = Product.get_quantity()
+        stock = Product.get_stock(product_index)
 
         if stock < quantity:
             raise InsufficientStockError(stock)

@@ -1,4 +1,5 @@
 from utils.text import print_line
+from typing import List
 import json
 
 PRODUCT_DB_PATH = 'data_base/produtos.json'
@@ -51,7 +52,7 @@ class Produto:
                 produto.show_info()
     
     @staticmethod
-    def get_products_as_objects():
+    def get_products_as_objects() -> List[Produto]:
         all_products = []
         with open(PRODUCT_DB_PATH, 'r') as read_file:
             products_json = json.load(read_file)
@@ -90,6 +91,18 @@ class Produto:
                 all_products.append(product_obj)
         
         return all_products
+
+        @staticmethod
+        def find_product(product_id: int) -> int:
+            for i in range(len(product_list)):
+                if product_list[i].id_num == product_id:
+                    return i
+            
+            return -1
+        
+        @staticmethod
+        def get_stock(product_index: int) -> int:
+            return product_list[product_index].estoque
 
 class Mouse(Produto):
     def __init__(
