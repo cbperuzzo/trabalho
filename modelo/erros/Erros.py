@@ -1,3 +1,5 @@
+# Product Errors
+
 class InsufficientStockError(Exception):
     def __init__(self, stock: int):
         super().__init__(f'Estoque insuficiente: {stock} produto(s) disponíveis')
