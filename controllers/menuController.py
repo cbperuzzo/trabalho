@@ -90,8 +90,8 @@ def search_product_by_model(user):
         break
 
 def show_cart(user):
-    user.show_cart()
     while True:
+        user.show_cart()
         print('Voltar - VOL')
         print('Finalizar compra - COM')
         print('Remover item do carrinho - REM')
@@ -101,11 +101,14 @@ def show_cart(user):
             break
         elif opcao == 'COM':
             user.buy() # TODO implementar método
+            break
         elif opcao == 'REM':
+            [product_id, quantity] = ask_user_for_product_and_quantity('rem')
 
-            raise NotImplementedError()
-        else:
-            continue
+            if product_id == None:
+                break
+
+            user.remove_from_cart(product_id, quantity)
 
 def show_user_purchase_historic(user):
     raise NotImplementedError()
@@ -137,8 +140,11 @@ def start_shopping(user):
         except InsufficientStockError as e:
             print('Erro:', e)
         
-def ask_user_for_product_and_quantity():
-    print('Digite o número do produto e a quantidade desejada para adicionar ao carrinho')
+def ask_user_for_product_and_quantity(mode='add'):
+    if mode == 'add':
+        print('Digite o número do produto e a quantidade desejada para adicionar ao carrinho')
+    elif mode == 'rem':
+        print('Digite o número do produto e a quantidade desejada para remover do carrinho')
     print('Voltar - VOL')
     entry = input().strip()
 

@@ -93,7 +93,7 @@ class User:
         
         return total
     
-    def show_cart(self):
+    def show_cart(self) -> None:
         total = self.get_cart_total()
         if total == 0:
             print('Nenhum produto no carrinho...')
@@ -101,15 +101,24 @@ class User:
 
         print(f'Carrinho de {self.nome}')
 
-        cabecalho = f'| {"Marca e modelo":<30}|{"Preço":^10}|{"Qtd.":^5}| Preço total'
+        cabecalho = f'| {"Num, Marca e modelo":<35}|{"Preço":^10}|{"Qtd.":^6}| Preço total'
         print(cabecalho)
 
         print_line(len(cabecalho))
 
         for item in self.carrinho:
-            formated_string = f'| {item[0].categoria.title() + ' ' + item[0].modelo:<30}|{item[0].preco:^10.2f}|{item[1]:^5}| R${item[0].preco * item[1]:.2f}'
+            formated_string = f'| {str(item[0].id_num) + ' - ' + item[0].categoria.title() + ' ' + item[0].modelo:<35}|{item[0].preco:^10.2f}|{item[1]:^6}| R${item[0].preco * item[1]:.2f}'
             print(formated_string)
 
         print_line(len(cabecalho))
         
         print(f'Total: R${total:.2f}')
+
+    def remove_from_cart(self, product_id: int, quantity: int) -> None:
+        for item in self.carrinho:
+            product = item[0]
+            if product.id_num == product_id:
+                if quantity >= item[1]:
+                    self.carrinho.remove(item)
+                elif quantity >= 0:
+                    item[1] -= quantity
