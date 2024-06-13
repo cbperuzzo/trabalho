@@ -133,6 +133,8 @@ class Produto:
 
         if product.estoque < quantity:
             raise InsufficientStockError(stock)
+    
+    
             
 
 class Mouse(Produto):

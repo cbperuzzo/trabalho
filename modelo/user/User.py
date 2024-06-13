@@ -1,8 +1,9 @@
 import json
 from typing import List, Dict
 from modelo.produtos.Produtos import Produto
-from utils.text import print_line
+from utils.text import print_line, get_current_formated_date_time
 
+VENDAS_DB_PATH = 'data_base/vendas.json'
 USERS_DB_PATH = 'data_base/usuarios.json'
 
 class User:
@@ -80,10 +81,33 @@ class User:
             self.carrinho.append([product, quantity])
         
         print(f'{quantity} {product.categoria}(s) {product.modelo} adicionados ao carrinho!')
-        print(self.carrinho)
     
     def buy(self):
-        raise NotImplementedError()
+        if len(self.carrinho) == 0:
+            return
+        
+        with open(VENDAS_DB_PATH, 'r') as read_file:
+            vendas_dict = json.load(read_file)
+        
+        items = []
+        for item in self.carrinho:
+            items.append([item[0].modelo, item[1]])
+        
+        nova_venda = {
+            "data": get_current_formated_date_time(),
+            "usuario": self.nome,
+            "valor_total": round(self.get_cart_total(), 2),
+            "produtos_comprados": items
+        }
+
+        vendas_dict["receita"] += nova_venda['valor_total']
+        vendas_dict["historico"].append(nova_venda)
+
+        with open(VENDAS_DB_PATH, 'w') as write_file:
+            json.dump(vendas_dict, write_file)
+        
+        self.carrinho = []
+        print("Compra finalizada com sucesso!")
     
     def get_cart_total(self):
         total = 0
@@ -93,7 +117,7 @@ class User:
         
         return total
     
-    def show_cart(self) -> None:
+    def show_cart(self):
         total = self.get_cart_total()
         if total == 0:
             print('Nenhum produto no carrinho...')

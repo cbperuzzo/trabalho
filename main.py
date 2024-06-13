@@ -8,4 +8,3 @@ indexUser()
 
 # Inicia o menu da aplicação, onde o usuário escolhe o que fazer
 init_menu(global_vars)
-

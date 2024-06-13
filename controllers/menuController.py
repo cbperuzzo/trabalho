@@ -100,7 +100,7 @@ def show_cart(user):
         if opcao == 'VOL':
             break
         elif opcao == 'COM':
-            user.buy() # TODO implementar método
+            user.buy()
             break
         elif opcao == 'REM':
             [product_id, quantity] = ask_user_for_product_and_quantity('rem')
