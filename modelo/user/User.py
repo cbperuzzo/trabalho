@@ -1,5 +1,6 @@
 import json
 from typing import List, Dict
+from modelo.erros.Erros import ProductNotFoundError, InsufficientStockError
 
 USERS_DB_PATH = 'data_base/usuarios.json'
 
@@ -63,7 +64,15 @@ class User:
     
     # TODO implementar essa função e outra na classe Produto para verificar se o produto existe e tem estoque
     def add_product_to_cart(self, product_id: int, quantity: int):
-        raise NotImplementedError()
+        if not Product.exists(product_id):
+            raise ProductNotFoundError(product_id)
+
+        stock = Product.get_quantity()
+
+        if stock < quantity:
+            raise InsufficientStockError(stock)
+
+        self.carrinho.append([product_id, quantity])
 
     def buy():
         raise NotImplementedError()

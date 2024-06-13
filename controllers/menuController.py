@@ -1,5 +1,6 @@
 from modelo.produtos.Produtos import Produto
 from modelo.user.User import User
+from  modelo.erros.Erros import ProductNotFoundError, InsufficientStockError
 
 def init_menu(global_vars):
     isAdmin = global_vars['user'].admin
@@ -86,6 +87,7 @@ def show_purchase_historic(user):
 def search_user_purchase_historic(user):
     raise NotImplementedError()
 
+#* App auxilliary functions
 
 def start_shopping(user):
     while True:
@@ -95,11 +97,11 @@ def start_shopping(user):
             break
         
         try:
-            user.add_product_to_cart(product, quantity) # Vai dar erro pois não foi implementado
+            user.add_product_to_cart(product, quantity)
             
-        except IndexError as e:
+        except ProductNotFoundError as e:
             print('Erro:', e)
-        except ValueError as e:
+        except InsufficientStockError as e:
             print('Erro:', e)
         
 def ask_user_for_product_and_quantity():
