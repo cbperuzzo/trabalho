@@ -1,6 +1,6 @@
 import json
 from typing import List, Dict
-from modelo.erros.Erros import ProductNotFoundError, InsufficientStockError
+from modelo.produtos.Produtos import Produto
 
 USERS_DB_PATH = 'data_base/usuarios.json'
 
@@ -63,17 +63,10 @@ class User:
         return all_users
     
     def add_product_to_cart(self, product_id: int, quantity: int):
-        product_index = Product.find_product(product_id)
-
-        if product_index == -1:
-            raise ProductNotFoundError(product_id)
-
-        stock = Product.get_stock(product_index)
-
-        if stock < quantity:
-            raise InsufficientStockError(stock)
-
+        
+        Produto.(product_id, quantity)
+        
         self.carrinho.append([product_id, quantity])
-
+    
     def buy():
         raise NotImplementedError()

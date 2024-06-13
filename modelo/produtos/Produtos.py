@@ -1,6 +1,7 @@
 from utils.text import print_line
 from typing import List
 import json
+from modelo.erros.Erros import ProductNotFoundError, InsufficientStockError
 
 PRODUCT_DB_PATH = 'data_base/produtos.json'
 CATEGORIAS = [
@@ -52,7 +53,7 @@ class Produto:
                 produto.show_info()
     
     @staticmethod
-    def get_products_as_objects() -> List[Produto]:
+    def get_products_as_objects() -> List:
         all_products = []
         with open(PRODUCT_DB_PATH, 'r') as read_file:
             products_json = json.load(read_file)
@@ -103,6 +104,19 @@ class Produto:
         @staticmethod
         def get_stock(product_index: int) -> int:
             return product_list[product_index].estoque
+        
+        @staticmethod
+        def check_stock(product_id: int, quantity: int) -> None:
+            product_index = Product.find_product(product_id)
+
+            if product_index == -1:
+                raise ProductNotFoundError(product_id)
+
+            stock = Product.get_stock(product_index)
+
+            if stock < quantity:
+                raise InsufficientStockError(stock)
+            
 
 class Mouse(Produto):
     def __init__(
