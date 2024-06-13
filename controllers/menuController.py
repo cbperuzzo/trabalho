@@ -1,6 +1,7 @@
 from modelo.produtos.Produtos import Produto
 from modelo.user.User import User
 from  modelo.erros.Erros import *
+from utils.text import print_line
 
 def init_menu(global_vars):
     isAdmin = global_vars['user'].admin
@@ -89,7 +90,22 @@ def search_product_by_model(user):
         break
 
 def show_cart(user):
-    raise NotImplementedError()
+    user.show_cart()
+    while True:
+        print('Voltar - VOL')
+        print('Finalizar compra - COM')
+        print('Remover item do carrinho - REM')
+        opcao = input().strip().upper()
+
+        if opcao == 'VOL':
+            break
+        elif opcao == 'COM':
+            user.buy() # TODO implementar método
+        elif opcao == 'REM':
+
+            raise NotImplementedError()
+        else:
+            continue
 
 def show_user_purchase_historic(user):
     raise NotImplementedError()
@@ -107,12 +123,13 @@ def search_user_purchase_historic(user):
 
 def start_shopping(user):
     while True:
-        [product, quantity] = ask_user_for_product_and_quantity()
+        [product_id, quantity] = ask_user_for_product_and_quantity()
 
-        if product == None:
+        if product_id == None:
             break
         
         try:
+            product = Produto.get_product_by_id(product_id)
             user.add_product_to_cart(product, quantity)
             
         except ProductNotFoundError as e:

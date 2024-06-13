@@ -1,6 +1,7 @@
 import json
 from typing import List, Dict
 from modelo.produtos.Produtos import Produto
+from utils.text import print_line
 
 USERS_DB_PATH = 'data_base/usuarios.json'
 
@@ -62,24 +63,53 @@ class User:
         
         return all_users
     
-    def add_product_to_cart(self, product_id: int, quantity: int):
+    def add_product_to_cart(self, product, quantity: int):
         product_already_in_cart = False
         
         for item in self.carrinho:
-            if item[0] == product_id:
+            if item[0] == product:
                 product_already_in_cart = True
                 product_cart_index = self.carrinho.index(item)
                 quantity += item[1]
 
-        Produto.check_stock(product_id, quantity)
+        Produto.check_stock(product, quantity)
 
         if product_already_in_cart:
             self.carrinho[product_cart_index][1] += quantity
         else:
-            self.carrinho.append([product_id, quantity])
+            self.carrinho.append([product, quantity])
         
-        print(f'{quantity} produtos de número {product_id} adicionados ao carrinho!')
+        print(f'{quantity} {product.categoria}(s) {product.modelo} adicionados ao carrinho!')
         print(self.carrinho)
     
-    def buy():
+    def buy(self):
         raise NotImplementedError()
+    
+    def get_cart_total(self):
+        total = 0
+
+        for item in self.carrinho:
+            total += item[1] * item[0].preco
+        
+        return total
+    
+    def show_cart(self):
+        total = self.get_cart_total()
+        if total == 0:
+            print('Nenhum produto no carrinho...')
+            return
+
+        print(f'Carrinho de {self.nome}')
+
+        cabecalho = f'| {"Marca e modelo":<30}|{"Preço":^10}|{"Qtd.":^5}| Preço total'
+        print(cabecalho)
+
+        print_line(len(cabecalho))
+
+        for item in self.carrinho:
+            formated_string = f'| {item[0].categoria.title() + ' ' + item[0].modelo:<30}|{item[0].preco:^10.2f}|{item[1]:^5}| R${item[0].preco * item[1]:.2f}'
+            print(formated_string)
+
+        print_line(len(cabecalho))
+        
+        print(f'Total: R${total:.2f}')

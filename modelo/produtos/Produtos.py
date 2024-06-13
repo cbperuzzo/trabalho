@@ -114,27 +114,24 @@ class Produto:
         return all_products
 
     @staticmethod
-    def find_product(product_id: int) -> int:
-        for i in range(len(product_list)):
-            if product_list[i].id_num == product_id:
-                return i
+    def get_product_by_id(product_id: int) -> int:
+        for item in product_list:
+            if item.id_num == product_id:
+                return item
         
-        return -1
+        return None
     
     @staticmethod
     def get_stock(product_index: int) -> int:
         return product_list[product_index].estoque
     
     @staticmethod
-    def check_stock(product_id: int, quantity: int) -> None:
-        product_index = Produto.find_product(product_id)
+    def check_stock(product, quantity: int) -> None:
 
-        if product_index == -1:
+        if product == None:
             raise ProductNotFoundError(product_id)
 
-        stock = Produto.get_stock(product_index)
-
-        if stock < quantity:
+        if product.estoque < quantity:
             raise InsufficientStockError(stock)
             
 
