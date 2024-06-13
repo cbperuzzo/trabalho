@@ -50,9 +50,26 @@ class Produto:
     def show_by_category(category: str):
         if category not in CATEGORIAS:
             raise CategoryNotFoundError(category)
+        
+        print(f'Categoria {category.upper()}')
+        print_line(40)
         for produto in product_list:
             if produto.categoria == category:
                 produto.show_info()
+                print_line(40)
+    
+    @staticmethod
+    def show_by_model(model: str):
+        not_found = True
+        print_line(40)
+        for produto in product_list:
+            if model.upper() in produto.modelo.upper():
+                produto.show_info()
+                print_line(40)
+                not_found = False
+        
+        if not_found:
+            raise ModelNotFoundError(model)
     
     @staticmethod
     def get_products_as_objects() -> List:

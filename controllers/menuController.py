@@ -9,7 +9,7 @@ def init_menu(global_vars):
         print('Menu')
         print('1 - Ver todos os produtos')
         print('2 - Ver produtos por categoria')
-        print('3 - Pesquisar produto pelo nome')
+        print('3 - Pesquisar produto pelo modelo')
         print('4 - Visualizar carrinho')
         print('5 - Ver histórico de compras')
         if isAdmin:
@@ -67,8 +67,26 @@ def show_category_products(user):
         start_shopping(user)
         break
 
-def search_product_by_name(user):
-    raise NotImplementedError()
+def search_product_by_model(user):
+    while True:
+        print('Digite o nome de algum produto para pesquisá-lo')
+        search = input().strip()
+
+        try:
+            Produto.show_by_model(search)
+        except ModelNotFoundError as e:
+            print('Erro:', e)
+            print('Voltar - VOL')
+            print('Tentar novamente - Any')
+            option = input().strip().upper()
+
+            if option == 'VOL':
+                break
+            else: 
+                continue
+        
+        start_shopping(user)
+        break
 
 def show_cart(user):
     raise NotImplementedError()
@@ -133,7 +151,7 @@ def verify_entry(entry):
 APP_FUNCTIONS = {
     1: show_all_products,
     2: show_category_products,
-    3: search_product_by_name,
+    3: search_product_by_model,
     4: show_cart,
     5: show_user_purchase_historic,
     6: register_product,

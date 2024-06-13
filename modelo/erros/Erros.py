@@ -11,3 +11,7 @@ class ProductNotFoundError(Exception):
 class CategoryNotFoundError(Exception):
     def __init__(self, category: str):
         super().__init__(f'Categoria "{category}" não encontrada')
+
+class ModelNotFoundError(Exception):
+    def __init__(self, model: str):
+        super().__init__(f'Modelo "{model}" não encontrado')
