@@ -1,7 +1,7 @@
 from utils.text import print_line
 from typing import List
 import json
-from modelo.erros.Erros import ProductNotFoundError, InsufficientStockError
+from modelo.erros.Erros import *
 
 PRODUCT_DB_PATH = 'data_base/produtos.json'
 CATEGORIAS = [
@@ -49,7 +49,7 @@ class Produto:
     @staticmethod
     def show_by_category(category: str):
         if category not in CATEGORIAS:
-            raise ValueError('Categoria não encontrada')
+            raise CategoryNotFoundError(category)
         for produto in product_list:
             if produto.categoria == category:
                 produto.show_info()

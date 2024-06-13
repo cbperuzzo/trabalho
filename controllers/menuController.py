@@ -1,6 +1,6 @@
 from modelo.produtos.Produtos import Produto
 from modelo.user.User import User
-from  modelo.erros.Erros import ProductNotFoundError, InsufficientStockError
+from  modelo.erros.Erros import *
 
 def init_menu(global_vars):
     isAdmin = global_vars['user'].admin
@@ -50,11 +50,9 @@ def show_category_products(user):
         print('Deseja ver os produtos de qual categoria? ')
         category = input()
 
-        
-            
         try:
             Produto.show_by_category(category)
-        except ValueError as e:
+        except CategoryNotFoundError as e:
             print('Erro:', e)
             print('Voltar - VOL')
             print('Tentar novamente - Any')
