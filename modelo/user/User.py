@@ -82,7 +82,7 @@ class User:
         
         print(f'{quantity} {product.categoria}(s) {product.modelo} adicionados ao carrinho!')
     
-    def buy(self):
+    def buy(self): #TODO fazer o estoque do produto diminuir após a compra
         if len(self.carrinho) == 0:
             return
         
