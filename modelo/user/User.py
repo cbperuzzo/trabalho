@@ -63,10 +63,23 @@ class User:
         return all_users
     
     def add_product_to_cart(self, product_id: int, quantity: int):
+        product_already_in_cart = False
         
-        Produto.(product_id, quantity)
+        for item in self.carrinho:
+            if item[0] == product_id:
+                product_already_in_cart = True
+                product_cart_index = self.carrinho.index(item)
+                quantity += item[1]
+
+        Produto.check_stock(product_id, quantity)
+
+        if product_already_in_cart:
+            self.carrinho[product_cart_index][1] += quantity
+        else:
+            self.carrinho.append([product_id, quantity])
         
-        self.carrinho.append([product_id, quantity])
+        print(f'{quantity} produtos de número {product_id} adicionados ao carrinho!')
+        print(self.carrinho)
     
     def buy():
         raise NotImplementedError()

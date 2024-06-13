@@ -14,6 +14,7 @@ class Produto:
     def __init__(
         self,
         id_num: int,
+        estoque: int,
         categoria: str,
         modelo: str, 
         marca: str, 
@@ -22,6 +23,7 @@ class Produto:
         ):
         
         self.id_num = id_num
+        self.estoque = estoque
         self.modelo = modelo
         self.marca = marca
         self.preco = preco
@@ -60,6 +62,7 @@ class Produto:
             for product_dict in products_json:
 
                 id_num = products_json.index(product_dict)
+                estoque = product_dict['estoque']
                 categoria = product_dict['categoria']
                 modelo = product_dict['modelo']
                 marca = product_dict['marca']
@@ -70,21 +73,21 @@ class Produto:
 
                 if categoria == 'mouse':
                     product_obj = Mouse(
-                        id_num, categoria, modelo, marca, preco, cor, 
+                        id_num, estoque, categoria, modelo, marca, preco, cor, 
                         product_dict['sensibilidade_dpi'], 
                         float(product_dict['tamanho_cm'])
                     )
                     
                 elif categoria == 'teclado':
                     product_obj = Teclado(
-                        id_num, categoria, modelo, marca,  preco, cor, 
+                        id_num, estoque, categoria, modelo, marca, preco, cor, 
                         product_dict['tipo'], 
                         int(product_dict['milh_toques'])
                     )
 
                 elif categoria == 'monitor':
                     product_obj = Monitor(
-                        id_num, categoria, modelo, marca, preco, cor, 
+                        id_num, estoque, categoria, modelo, marca, preco, cor, 
                         float(product_dict['polegadas']), 
                         float(product_dict['frequencia_hz'])
                     )
@@ -93,35 +96,36 @@ class Produto:
         
         return all_products
 
-        @staticmethod
-        def find_product(product_id: int) -> int:
-            for i in range(len(product_list)):
-                if product_list[i].id_num == product_id:
-                    return i
-            
-            return -1
+    @staticmethod
+    def find_product(product_id: int) -> int:
+        for i in range(len(product_list)):
+            if product_list[i].id_num == product_id:
+                return i
         
-        @staticmethod
-        def get_stock(product_index: int) -> int:
-            return product_list[product_index].estoque
-        
-        @staticmethod
-        def check_stock(product_id: int, quantity: int) -> None:
-            product_index = Product.find_product(product_id)
+        return -1
+    
+    @staticmethod
+    def get_stock(product_index: int) -> int:
+        return product_list[product_index].estoque
+    
+    @staticmethod
+    def check_stock(product_id: int, quantity: int) -> None:
+        product_index = Produto.find_product(product_id)
 
-            if product_index == -1:
-                raise ProductNotFoundError(product_id)
+        if product_index == -1:
+            raise ProductNotFoundError(product_id)
 
-            stock = Product.get_stock(product_index)
+        stock = Produto.get_stock(product_index)
 
-            if stock < quantity:
-                raise InsufficientStockError(stock)
+        if stock < quantity:
+            raise InsufficientStockError(stock)
             
 
 class Mouse(Produto):
     def __init__(
         self, 
         id_num: int,
+        estoque: int,
         categoria: str,
         modelo: str, 
         marca: str,
@@ -131,7 +135,7 @@ class Mouse(Produto):
         tamanho_cm: float
         ):
 
-        super().__init__(id_num, categoria, modelo, marca, preco, cor)
+        super().__init__(id_num, estoque, categoria, modelo, marca, preco, cor)
         self.sensibilidade_dpi = sensibilidade_dpi
         self.tamanho_cm = tamanho_cm
         self.categoria = 'mouse'
@@ -150,6 +154,7 @@ class Teclado(Produto):
     def __init__(
         self,
         id_num: int,
+        estoque: int,
         categoria: str,
         modelo: str,
         marca: str,
@@ -159,7 +164,7 @@ class Teclado(Produto):
         milh_toques: int
         ):
 
-        super().__init__(id_num, categoria, modelo, marca, preco, cor)
+        super().__init__(id_num, estoque, categoria, modelo, marca, preco, cor)
         self.tipo = tipo
         self.milh_toques = milh_toques
         self.categoria = 'teclado'
@@ -171,6 +176,7 @@ class Monitor(Produto):
     def __init__(
         self, 
         id_num: int,
+        estoque: int,
         categoria: str,
         modelo: str, 
         marca: str,
@@ -180,7 +186,7 @@ class Monitor(Produto):
         frequencia_hz: float
         ):
 
-        super().__init__(id_num, categoria, modelo, marca, preco, cor)
+        super().__init__(id_num, estoque, categoria, modelo, marca, preco, cor)
         self.polegadas = polegadas
         self.frequencia_hz = frequencia_hz
         self.categoria = 'monitor'
