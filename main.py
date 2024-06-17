@@ -1,10 +1,4 @@
-<<<<<<< HEAD
-from controllers.userController import global_vars , indexUser
+from controllers.userController import curuser,indexUser,admin
 
 indexUser()
-print('.',global_vars['curuser'], global_vars['admin'])
-=======
-from controllers.userController import indexUser
-
-indexUser()
->>>>>>> a
+print('.',curuser, admin)
