@@ -130,7 +130,9 @@ def show_purchase_historic(user):
         print('Não autorizado!')
         return
     
-    raise NotImplementedError()
+    User.show_purchase_historic()
+    print('Digite qualquer coisa para voltar')
+    input()
 
 def search_user_purchase_historic(user):
     if not user.admin:

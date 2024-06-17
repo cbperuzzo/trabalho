@@ -176,6 +176,19 @@ class User:
     @staticmethod
     def get_purchase_historic():
         with open(VENDAS_DB_PATH, 'r') as read_file:
-            vendas_json = json.load(read_file)
+            purchase_historic = json.load(read_file)
         
-        return vendas_json
+        return purchase_historic
+    
+    @staticmethod
+    def show_purchase_historic():
+        purchase_historic = User.get_purchase_historic()
+        for purchase in purchase_historic['historico']:
+            print(f'Usuário: {purchase['usuario']}')
+            print(f'Data e hora: {purchase['data']}')
+            print(f'Valor total: R${purchase['valor_total']:.2f}')
+            print(f'Produtos comprados:')
+            for produto in purchase['produtos_comprados']:
+                print(f'\t{produto[1]} {produto[0]}(s)')
+            print_line(40)
+        print(f'Receita total: R${purchase_historic['receita']}')
