@@ -70,7 +70,7 @@ class Produto:
         if not_found:
             raise ModelNotFoundError(model)
     
-    #! Os 2 métodos a seguir precisam ser atualizados ao adicionar novas categorias de produtos
+    #! O método a seguir precisa ser atualizado ao adicionar novas categorias de produtos
     @staticmethod
     def get_products_as_objects() -> List:
         all_products = []
@@ -117,26 +117,7 @@ class Produto:
     def get_json_serializable_product_list():
         product_list_json = []
         for product in product_list:
-            product_json = {
-                "estoque":product.estoque,
-                "categoria": product.categoria,
-                "modelo": product.modelo,
-                "marca": product.marca,
-                "preco": product.preco,
-                "cor": product.cor
-            }
-
-            #! Atualizar ao adicionar mais categorias de produtos
-            if product.categoria == 'mouse':
-                product_json['sensibilidade_dpi'] = product.sensibilidade_dpi
-                product_json['tamanho_cm'] = product.tamanho_cm
-            elif product.categoria == 'teclado':
-                product_json['tipo'] = product.tipo
-                product_json['milh_toques'] = product.milh_toques
-            elif product.categoria == 'monitor':
-                product_json['polegadas'] = product.polegadas
-                product_json['frequencia_hz'] = product.frequencia_hz
-            
+            product_json = product.get_json_serializable()
             product_list_json.append(product_json)
 
         return product_list_json
@@ -157,10 +138,10 @@ class Produto:
     def check_stock(product, quantity: int) -> None:
 
         if product == None:
-            raise ProductNotFoundError(product_id)
+            raise ProductNotFoundError(product.id_num)
 
         if product.estoque < quantity:
-            raise InsufficientStockError(stock)
+            raise InsufficientStockError(product.estoque)
     
     @staticmethod
     def decrease_products_stock(cart):
@@ -201,8 +182,18 @@ class Mouse(Produto):
         print(f'DPI: {self.sensibilidade_dpi}')
         print(f'Tamanho: {self.tamanho_cm}cm')
 
-    def save(self):
-        raise NotImplementedError()
+    def get_json_serializable(self):
+        product_json = {
+                "estoque":self.estoque,
+                "categoria": self.categoria,
+                "modelo": self.modelo,
+                "marca": self.marca,
+                "preco": self.preco,
+                "cor": self.cor,
+                "sensibilidade_dpi": self.sensibilidade_dpi,
+                "tamanho_cm": self.tamanho_cm
+            }
+        return product_json
 
 class Teclado(Produto):
     def __init__(
@@ -222,9 +213,27 @@ class Teclado(Produto):
         self.tipo = tipo
         self.milh_toques = milh_toques
         self.categoria = 'teclado'
+    
+    def show_info(self):
+        print(f'{self.id_num} - Mouse {self.marca} | {self.modelo}')
+        print(f'R${self.preco:.2f}')
+        print(f'Cor: {self.cor}')
+        print(f'Tipo: {self.tipo}')
+        print(f'Milhares de toques: {self.milh_toques} mil')
 
-    def save(self):
-        raise NotImplementedError()
+    def get_json_serializable(self):
+        product_json = {
+                "estoque":self.estoque,
+                "categoria": self.categoria,
+                "modelo": self.modelo,
+                "marca": self.marca,
+                "preco": self.preco,
+                "cor": self.cor,
+                "tipo": self.tipo,
+                "milh_toques": self.milh_toques
+            }
+
+        return product_json
 
 class Monitor(Produto):
     def __init__(
@@ -244,9 +253,27 @@ class Monitor(Produto):
         self.polegadas = polegadas
         self.frequencia_hz = frequencia_hz
         self.categoria = 'monitor'
+    
+    def show_info(self):
+        print(f'{self.id_num} - Mouse {self.marca} | {self.modelo}')
+        print(f'R${self.preco:.2f}')
+        print(f'Cor: {self.cor}')
+        print(f'Tamanho: {self.polegadas} polegadas')
+        print(f'Frequência: {self.frequencia_hz} Hz')
 
-    def save(self):
-        raise NotImplementedError()
+    def get_json_serializable(self):
+        product_json = {
+                "estoque":self.estoque,
+                "categoria": self.categoria,
+                "modelo": self.modelo,
+                "marca": self.marca,
+                "preco": self.preco,
+                "cor": self.cor,
+                "polegadas": self.polegadas,
+                "frequencia_hz": self.frequencia_hz
+            }
+
+        return product_json
 
 
 product_list = Produto.get_products_as_objects()
