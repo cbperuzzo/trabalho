@@ -82,7 +82,7 @@ class User:
         
         print(f'{quantity} {product.categoria}(s) {product.modelo} adicionados ao carrinho!')
     
-    def buy(self): #TODO fazer o estoque do produto diminuir após a compra
+    def buy(self):
         if len(self.carrinho) == 0:
             return
         
@@ -179,7 +179,7 @@ class User:
             purchase_historic = json.load(read_file)
         
         return purchase_historic
-    
+
     @staticmethod
     def show_purchase_historic():
         purchase_historic = User.get_purchase_historic()
