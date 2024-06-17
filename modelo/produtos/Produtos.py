@@ -215,7 +215,7 @@ class Teclado(Produto):
         self.categoria = 'teclado'
     
     def show_info(self):
-        print(f'{self.id_num} - Mouse {self.marca} | {self.modelo}')
+        print(f'{self.id_num} - Teclado {self.marca} | {self.modelo}')
         print(f'R${self.preco:.2f}')
         print(f'Cor: {self.cor}')
         print(f'Tipo: {self.tipo}')
@@ -255,7 +255,7 @@ class Monitor(Produto):
         self.categoria = 'monitor'
     
     def show_info(self):
-        print(f'{self.id_num} - Mouse {self.marca} | {self.modelo}')
+        print(f'{self.id_num} - Monitor {self.marca} | {self.modelo}')
         print(f'R${self.preco:.2f}')
         print(f'Cor: {self.cor}')
         print(f'Tamanho: {self.polegadas} polegadas')
