@@ -71,7 +71,7 @@ class User:
             if item[0] == product:
                 product_already_in_cart = True
                 product_cart_index = self.carrinho.index(item)
-                quantity += item[1]
+                # quantity += item[1]
 
         Produto.check_stock(product, quantity)
 
@@ -131,7 +131,7 @@ class User:
         print_line(len(cabecalho))
 
         for item in self.carrinho:
-            formated_string = f'| {str(item[0].id_num) + ' - ' + item[0].categoria.title() + ' ' + item[0].modelo:<35}|{item[0].preco:^10.2f}|{item[1]:^6}| R${item[0].preco * item[1]:.2f}'
+            formated_string = f'| {str(item[0].id_num) + " - " + item[0].categoria.title() + " " + item[0].modelo:<35}|{item[0].preco:^10.2f}|{item[1]:^6}| R${item[0].preco * item[1]:.2f}'
             print(formated_string)
 
         print_line(len(cabecalho))
@@ -156,8 +156,8 @@ class User:
         
         print_line(40)
         for purchase in own_purchase_historic:
-            print(f'Data e hora: {purchase['data']}')
-            print(f'Valor total: R${purchase['valor_total']:.2f}')
+            print(f'Data e hora: {purchase["data"]}')
+            print(f'Valor total: R${purchase["valor_total"]:.2f}')
             print(f'Produtos comprados:')
             for produto in purchase['produtos_comprados']:
                 print(f'\t{produto[1]} {produto[0]}(s)')
@@ -184,11 +184,11 @@ class User:
     def show_purchase_historic():
         purchase_historic = User.get_purchase_historic()
         for purchase in purchase_historic['historico']:
-            print(f'Usuário: {purchase['usuario']}')
-            print(f'Data e hora: {purchase['data']}')
-            print(f'Valor total: R${purchase['valor_total']:.2f}')
+            print(f'Usuário: {purchase["usuario"]}')
+            print(f'Data e hora: {purchase["data"]}')
+            print(f'Valor total: R${purchase["valor_total"]:.2f}')
             print(f'Produtos comprados:')
             for produto in purchase['produtos_comprados']:
                 print(f'\t{produto[1]} {produto[0]}(s)')
             print_line(40)
-        print(f'Receita total: R${purchase_historic['receita']}')
+        print(f'Receita total: R${purchase_historic["receita"]}')
