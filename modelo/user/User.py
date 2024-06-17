@@ -146,3 +146,36 @@ class User:
                     self.carrinho.remove(item)
                 elif quantity >= 0:
                     item[1] -= quantity
+    
+    def show_own_purchase_historic(self) -> None:
+        own_purchase_historic = self.get_own_purchase_historic()
+
+        if len(own_purchase_historic) == 0:
+            print('Nenhuma compra relizada.')
+            return
+        
+        print_line(40)
+        for purchase in own_purchase_historic:
+            print(f'Data e hora: {purchase['data']}')
+            print(f'Valor total: R${purchase['valor_total']:.2f}')
+            print(f'Produtos comprados:')
+            for produto in purchase['produtos_comprados']:
+                print(f'\t{produto[1]} {produto[0]}(s)')
+            print_line(40)
+    
+    def get_own_purchase_historic(self) -> Dict['str', Dict]:
+        purchase_historic = User.get_purchase_historic()
+
+        own_purchase_historic = []
+        for purchase in purchase_historic['historico']:
+            if purchase['usuario'] == self.nome:
+                own_purchase_historic.append(purchase)
+        
+        return own_purchase_historic
+
+    @staticmethod
+    def get_purchase_historic():
+        with open(VENDAS_DB_PATH, 'r') as read_file:
+            vendas_json = json.load(read_file)
+        
+        return vendas_json

@@ -35,7 +35,7 @@ def init_menu(global_vars):
         APP_FUNCTIONS[option](global_vars['user'])
 
 def menu_option_is_not_valid(option: str, admin: bool):
-    without_permission = not admin and option > 5
+    without_permission = not admin and int(option) > 5
     option_out_of_range = not option.isnumeric() or int(option) < 1 or int(option) > 8
 
     return option_out_of_range or without_permission
@@ -112,15 +112,31 @@ def show_cart(user):
             user.remove_from_cart(product_id, quantity)
 
 def show_user_purchase_historic(user):
-    raise NotImplementedError()
+    user.show_own_purchase_historic()
+    print('Digite qualquer coisa para voltar')
+    input()
+
+#* Admin only app functions
 
 def register_product(user):
+    if not user.admin:
+        print('Não autorizado!')
+        return
+    
     raise NotImplementedError()
 
 def show_purchase_historic(user):
+    if not user.admin:
+        print('Não autorizado!')
+        return
+    
     raise NotImplementedError()
 
 def search_user_purchase_historic(user):
+    if not user.admin:
+        print('Não autorizado!')
+        return
+    
     raise NotImplementedError()
 
 #* App auxilliary functions
