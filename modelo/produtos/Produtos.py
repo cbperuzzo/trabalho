@@ -38,7 +38,6 @@ class Produto:
         print(f'R${self.preco:.2f}')
         print(f'Cor: {self.cor}')
     
-
     @staticmethod
     def show_all():
         print_line(40)
@@ -71,6 +70,7 @@ class Produto:
         if not_found:
             raise ModelNotFoundError(model)
     
+    #! Os 2 métodos a seguir precisam ser atualizados ao adicionar novas categorias de produtos
     @staticmethod
     def get_products_as_objects() -> List:
         all_products = []
@@ -114,6 +114,34 @@ class Produto:
         return all_products
 
     @staticmethod
+    def get_json_serializable_product_list():
+        product_list_json = []
+        for product in product_list:
+            product_json = {
+                "estoque":product.estoque,
+                "categoria": product.categoria,
+                "modelo": product.modelo,
+                "marca": product.marca,
+                "preco": product.preco,
+                "cor": product.cor
+            }
+
+            #! Atualizar ao adicionar mais categorias de produtos
+            if product.categoria == 'mouse':
+                product_json['sensibilidade_dpi'] = product.sensibilidade_dpi
+                product_json['tamanho_cm'] = product.tamanho_cm
+            elif product.categoria == 'teclado':
+                product_json['tipo'] = product.tipo
+                product_json['milh_toques'] = product.milh_toques
+            elif product.categoria == 'monitor':
+                product_json['polegadas'] = product.polegadas
+                product_json['frequencia_hz'] = product.frequencia_hz
+            
+            product_list_json.append(product_json)
+
+        return product_list_json
+        
+    @staticmethod
     def get_product_by_id(product_id: int) -> int:
         for item in product_list:
             if item.id_num == product_id:
@@ -134,8 +162,18 @@ class Produto:
         if product.estoque < quantity:
             raise InsufficientStockError(stock)
     
-    
-            
+    @staticmethod
+    def decrease_products_stock(cart):
+        for item in cart:
+            product_list[product_list.index(item[0])].estoque -= item[1]
+        
+        Produto.update_products_db()
+        
+    @staticmethod
+    def update_products_db():
+        product_list_json = Produto.get_json_serializable_product_list()
+        with open(PRODUCT_DB_PATH, 'w') as write_file:
+            json.dump(product_list_json, write_file)
 
 class Mouse(Produto):
     def __init__(

@@ -100,6 +100,7 @@ def show_cart(user):
         if opcao == 'VOL':
             break
         elif opcao == 'COM':
+            Produto.decrease_products_stock(user.carrinho)
             user.buy()
             break
         elif opcao == 'REM':
