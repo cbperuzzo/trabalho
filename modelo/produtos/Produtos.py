@@ -51,10 +51,17 @@ class Produto:
     
     @staticmethod
     def show_by_category(category: str):
-        if category not in CATEGORIAS:
-            raise CategoryNotFoundError(category)
-        
         print(f'Categoria {category.upper()}')
+
+        for produto in product_list:
+            if category.upper() == produto.categoria.upper():
+                produto.show_info()
+                print_line(40)
+                not_found = False
+        
+        if not_found:
+            raise CategoryNotFoundError(category)
+
         print_line(40)
 
     
