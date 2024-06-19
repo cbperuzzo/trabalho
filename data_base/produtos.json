@@ -268,5 +268,15 @@
     "cor": "preto",
     "polegadas": 21.5,
     "frequencia_hz": 75.0
+  },
+  {
+    "estoque": 20,
+    "categoria": "mouse",
+    "modelo": "xing",
+    "marca": "china",
+    "preco": 121.0,
+    "cor": "preto",
+    "sensibilidade_dpi": 800,
+    "tamanho_cm": 12.0
   }
 ]

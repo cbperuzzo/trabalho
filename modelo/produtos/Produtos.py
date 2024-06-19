@@ -21,7 +21,7 @@ class Produto:
         preco: float, 
         cor: str
         ):
-        
+        self.categoria = categoria
         self.id_num = id_num
         self.estoque = estoque
         self.modelo = modelo
@@ -31,7 +31,11 @@ class Produto:
 
     #WIP
     def save(self):
-       pass
+        for produto in product_list:
+            if produto.categoria == self.categoria and produto.modelo == self.modelo:
+                raise ValueError('Este produto ja existe')
+        product_list.append(self)
+        Produto.update_products_db()
 
     def show_info(self):
         print(f'{self.id_num} - {self.marca} | {self.modelo}')
@@ -175,26 +179,6 @@ class Mouse(Produto):
         self.tamanho_cm = tamanho_cm
         self.categoria = 'mouse'
 
-    def save(self):
-        new_mouse = {
-            "estoque": 0,
-            "categoria": self.categoria,
-            "modelo": self.modelo,
-            "marca": self.marca,
-            "preco": self.preco,
-            "cor": self.cor,
-            "sensibilidade_dpi": self.sensibilidade_dpi,
-            "tamanho_cm": self.tamanho_cm
-        }
-
-        for produto in product_list:
-            if produto.categoria == 'mouse' and produto.modelo == self.modelo:
-                raise ValueError('Este produto ja existe')
-            else:
-                product_list.append(new_mouse)
-                Produto.update_products_db()
-
-
     def show_info(self):
         print(f'{self.id_num} - Mouse {self.marca} | {self.modelo}')
         print(f'R${self.preco:.2f}')
@@ -234,25 +218,6 @@ class Teclado(Produto):
         self.milh_toques = milh_toques
         self.categoria = 'teclado'
 
-    def save(self):
-        new_teclado = {
-            "estoque": 0,
-            "categoria": self.categoria,
-            "modelo": self.modelo,
-            "marca": self.marca,
-            "preco": self.preco,
-            "cor": self.cor,
-            "tipo": self.tipo,
-            "milh_toques": self.milh_toques
-        }
-
-        for produto in product_list:
-            if produto.categoria == 'mouse' and produto.modelo == self.modelo:
-                raise ValueError('Este produto ja existe')
-            else:
-                product_list.append(new_teclado)
-                Produto.update_products_db()
-    
     def show_info(self):
         print(f'{self.id_num} - Teclado {self.marca} | {self.modelo}')
         print(f'R${self.preco:.2f}')
@@ -292,24 +257,7 @@ class Monitor(Produto):
         self.polegadas = polegadas
         self.frequencia_hz = frequencia_hz
         self.categoria = 'monitor'
-    def save(self):
-        new_monitor = {
-            "estoque": 0,
-            "categoria": self.categoria,
-            "modelo": self.modelo,
-            "marca": self.marca,
-            "preco": self.preco,
-            "cor": self.cor,
-            "frequencia_hz": self.frequencia_hz,
-            "polegadas": self.polegadas
-        }
 
-        for produto in product_list:
-            if produto.categoria == 'mouse' and produto.modelo == self.modelo:
-                raise ValueError('Este produto ja existe')
-            else:
-                product_list.append(new_monitor)
-                Produto.update_products_db()
     def show_info(self):
         print(f'{self.id_num} - Monitor {self.marca} | {self.modelo}')
         print(f'R${self.preco:.2f}')

@@ -124,6 +124,16 @@ def logout(user):
 
 #* Admin only app functions
 
+def view_users(user):
+    if not user.admin:
+        print('Não autorizado!')
+        return
+    allUsrs = User.get_all_users()
+    for usr in allUsrs:
+        print("nome:",usr['username'])
+        print("status de admin:",usr['admin'])
+        print("----------------------------------")
+
 def register_product(user): #model save
     if not user.admin:
         print('Não autorizado!')
@@ -188,11 +198,6 @@ def show_purchase_historic(user):
     print('Digite qualquer coisa para voltar')
     input()
 
-def search_user_purchase_historic(user):
-    if not user.admin:
-        print('Não autorizado!')
-        return
-    
     raise NotImplementedError()
 
 #* App auxilliary functions
@@ -254,5 +259,5 @@ APP_FUNCTIONS = {
     5: show_user_purchase_historic,
     6: register_product,
     7: show_purchase_historic,
-    8: search_user_purchase_historic
+    8: view_users
 }
