@@ -18,7 +18,6 @@ def indexUser(): #gera maneiras de acessar a aplicação, associando um valor v�
                 break
         else:
             "Ação não encontrada, tente novamente"
-
 def log():
     while True:
         nome = input("nome: ")

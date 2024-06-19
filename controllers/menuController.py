@@ -2,11 +2,14 @@ from modelo.produtos.Produtos import Produto,Mouse,Monitor,Teclado
 from modelo.produtos.Produtos import CATEGORIAS,product_list
 from modelo.user.User import User
 from  modelo.erros.Erros import *
+from controllers.userController import indexUser
 from utils.text import print_line, isFloatable
 
 
 def init_menu(global_vars):
     isAdmin = global_vars['user'].admin
+
+    back = False
 
     while True:
         print('Menu')
@@ -28,7 +31,9 @@ def init_menu(global_vars):
 
         if option.upper() == 'F':
             break
-
+        if option == '0':
+            back = True
+            break
         if menu_option_is_not_valid(option, isAdmin):
             print('Esta opção não existe, tente novamente.')
             continue
@@ -37,9 +42,11 @@ def init_menu(global_vars):
 
         APP_FUNCTIONS[option](global_vars['user'])
 
+    return back
+
 def menu_option_is_not_valid(option: str, admin: bool):
     without_permission = not admin and int(option) > 5
-    option_out_of_range = not option.isnumeric() or int(option) < 1 or int(option) > 8
+    option_out_of_range = not option.isnumeric() or int(option) < 0 or int(option) > 8
 
     return option_out_of_range or without_permission
 
@@ -119,9 +126,6 @@ def show_user_purchase_historic(user):
     print('Digite qualquer coisa para voltar')
     input()
 
-def logout(user):
-    pass
-
 #* Admin only app functions
 
 def view_users(user):
@@ -133,6 +137,7 @@ def view_users(user):
         print("nome:",usr['username'])
         print("status de admin:",usr['admin'])
         print("----------------------------------")
+    input("digite qualquer coisa para continuar")
 
 def register_product(user): #model save
     if not user.admin:
@@ -198,8 +203,6 @@ def show_purchase_historic(user):
     print('Digite qualquer coisa para voltar')
     input()
 
-    raise NotImplementedError()
-
 #* App auxilliary functions
 
 def start_shopping(user):
@@ -251,7 +254,6 @@ def verify_entry(entry):
 
 
 APP_FUNCTIONS = {
-    0: logout,
     1: show_all_products,
     2: show_category_products,
     3: search_product_by_model,
