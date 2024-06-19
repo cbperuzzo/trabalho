@@ -1,4 +1,5 @@
 from controllers.userController import global_vars , indexUser
+from controllers.menuController import init_menu
 
 indexUser()
-print('.',global_vars['curuser'], global_vars['admin'])
+init_menu(global_vars)

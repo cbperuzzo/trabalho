@@ -15,3 +15,7 @@ class CategoryNotFoundError(Exception):
 class ModelNotFoundError(Exception):
     def __init__(self, model: str):
         super().__init__(f'Modelo "{model}" não encontrado')
+
+class InvalidInput(Exception):
+    def __init__(self,):
+        super().__init__("algum(s) valores são inválidos")

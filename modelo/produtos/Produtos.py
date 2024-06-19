@@ -113,8 +113,8 @@ class Produto:
     @staticmethod
     def get_json_serializable_product_list():
         product_list_json = []
-        for product in product_list:
-            product_json = product.get_json_serializable()
+        for produto in product_list:
+            product_json = produto.get_json_serializable()
             product_list_json.append(product_json)
 
         return product_list_json
@@ -146,6 +146,9 @@ class Produto:
             product_list[product_list.index(item[0])].estoque -= item[1]
         
         Produto.update_products_db()
+    @staticmethod
+    def stock_operation(val:int):
+        pass
         
     @staticmethod
     def update_products_db():
