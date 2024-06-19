@@ -2,7 +2,8 @@ from modelo.produtos.Produtos import Produto,Mouse,Monitor,Teclado
 from modelo.produtos.Produtos import CATEGORIAS,product_list
 from modelo.user.User import User
 from  modelo.erros.Erros import *
-from utils.text import print_line
+from utils.text import print_line, isFloatable
+
 
 def init_menu(global_vars):
     isAdmin = global_vars['user'].admin
@@ -137,7 +138,7 @@ def register_product(user): #model save
     estoque = input("estoque inicial:").strip()
     preco = input("preço:").strip()
     cor = input("cor:").strip()
-    if not (preco.isnumeric() and estoque.isnumeric()):
+    if not (isFloatable(preco) and estoque.isnumeric()):
         raise InvalidInput
     preco = float(preco)
     estoque = int(estoque)
@@ -147,7 +148,7 @@ def register_product(user): #model save
     if cat == 'monitor':
         hz = input("frequência em hz:").strip()
         polegadas = input("polegadas:").strip()
-        if not (hz.isnumeric() and polegadas.isnumeric()):
+        if not (isFloatable(hz) and isFloatable(polegadas)):
             raise InvalidInput
         hz = float(hz)
         polegadas = float(polegadas)
@@ -158,7 +159,7 @@ def register_product(user): #model save
     elif cat =='mouse':
         dpi = input("DPI:").strip()
         tamanho = input("tamanho CM:").strip()
-        if not (dpi.isnumeric() and tamanho.isnumeric()):
+        if not (dpi.isnumeric() and isFloatable(tamanho)):
             raise InvalidInput
         dpi = int(dpi)
         tamanho = float(tamanho)
@@ -169,7 +170,7 @@ def register_product(user): #model save
     else:  # cat == teclado
         tipo = input("tipo: 0 - membrana 1 - mecânico").strip()
         mil_toques = input("durabilidade (milhões de toques) :").strip()
-        if not(mil_toques.isnumeric() and tipo in ['0','1']):
+        if not(mil_toques.isnumeric() and tipo in ['0', '1']):
             raise InvalidInput
         tipos = ['membrana','mecânico']
         tipo = tipos[int(tipo)]

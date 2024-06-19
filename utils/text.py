@@ -16,3 +16,10 @@ def get_current_formated_date_time():
     current_date_time = f"{day}/{month}/{year} | {hour:02d}:{minute:02d}:{second:02d}"
 
     return current_date_time
+
+def isFloatable(val:str):
+    try:
+        val = float(val)
+    except:
+        return False
+    return True
