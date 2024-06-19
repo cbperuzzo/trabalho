@@ -53,6 +53,8 @@ class Produto:
     def show_by_category(category: str):
         print(f'Categoria {category.upper()}')
 
+        not_found = True
+
         for produto in product_list:
             if category.upper() == produto.categoria.upper():
                 produto.show_info()
