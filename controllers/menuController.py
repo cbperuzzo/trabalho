@@ -13,7 +13,7 @@ def init_menu(global_vars):
 
     while True:
         print('Menu')
-        print('0 - logout') #novo
+        print('0 - logout')
         print('1 - Ver todos os produtos')
         print('2 - Ver produtos por categoria')
         print('3 - Pesquisar produto pelo modelo')
@@ -23,7 +23,11 @@ def init_menu(global_vars):
             print('Painel de admin')
             print('6 - Cadastrar novo Produto')
             print('7 - Mostrar todo o histórico de compras')
-            print('8 - ver clientes') #antes era pesquisar histórico de um cliente
+            print('8 - ver clientes')
+            print('9 - adicionar estoque')
+            print('10 - editar produtos')
+            print('11 - elevar usuário a admin')
+            print('12 - histórico de adição ao estoque')
         
         print('F - Fechar o programa')
 
@@ -143,56 +147,65 @@ def register_product(user): #model save
     if not user.admin:
         print('Não autorizado!')
         return
-    cat = input("qual categoria ?")
-    if cat not in CATEGORIAS:
-        raise CategoryNotFoundError(cat)
+    while True:
+        cat = input("qual categoria ?")
+        if cat not in CATEGORIAS:
+            print("categoria inválida")
+            continue
 
-    print(f'Categoria {cat.upper()}')
-    marca = input("marca:").strip()
-    modelo = input("modelo").strip()
-    estoque = input("estoque inicial:").strip()
-    preco = input("preço:").strip()
-    cor = input("cor:").strip()
-    if not (isFloatable(preco) and estoque.isnumeric()):
-        raise InvalidInput
-    preco = float(preco)
-    estoque = int(estoque)
+        print(f'Categoria {cat.upper()}')
+        marca = input("marca:").strip()
+        modelo = input("modelo").strip()
+        estoque = input("estoque inicial:").strip()
+        preco = input("preço:").strip()
+        cor = input("cor:").strip()
+        if not (isFloatable(preco) and estoque.isnumeric()):
+            print("preço e estoque devem ser números")
+            continue
 
-    nnum = len(product_list)
+        preco = float(preco)
+        estoque = int(estoque)
 
-    if cat == 'monitor':
-        hz = input("frequência em hz:").strip()
-        polegadas = input("polegadas:").strip()
-        if not (isFloatable(hz) and isFloatable(polegadas)):
-            raise InvalidInput
-        hz = float(hz)
-        polegadas = float(polegadas)
+        nnum = len(product_list)
 
-        nmoni = Monitor(nnum,estoque,cat,modelo,marca,preco,cor,polegadas,hz)
-        nmoni.save()
+        if cat == 'monitor':
+            hz = input("frequência em hz:").strip()
+            polegadas = input("polegadas:").strip()
+            if not (isFloatable(hz) and isFloatable(polegadas)):
+                print("frquẽncia e polegadas devem ser números")
+                continue
+            hz = float(hz)
+            polegadas = float(polegadas)
 
-    elif cat =='mouse':
-        dpi = input("DPI:").strip()
-        tamanho = input("tamanho CM:").strip()
-        if not (dpi.isnumeric() and isFloatable(tamanho)):
-            raise InvalidInput
-        dpi = int(dpi)
-        tamanho = float(tamanho)
+            nmoni = Monitor(nnum,estoque,cat,modelo,marca,preco,cor,polegadas,hz)
+            nmoni.save()
+            break
 
-        nmouse = Mouse(nnum,estoque,cat,modelo,marca,preco,cor,dpi,tamanho)
-        nmouse.save()
+        elif cat =='mouse':
+            dpi = input("DPI:").strip()
+            tamanho = input("tamanho CM:").strip()
+            if not (dpi.isnumeric() and isFloatable(tamanho)):
+                print("dpi e tamanho devem ser números")
+                continue
+            dpi = int(dpi)
+            tamanho = float(tamanho)
 
-    else:  # cat == teclado
-        tipo = input("tipo: 0 - membrana 1 - mecânico").strip()
-        mil_toques = input("durabilidade (milhões de toques) :").strip()
-        if not(mil_toques.isnumeric() and tipo in ['0', '1']):
-            raise InvalidInput
-        tipos = ['membrana','mecânico']
-        tipo = tipos[int(tipo)]
-        mil_toques = int(mil_toques)
+            nmouse = Mouse(nnum,estoque,cat,modelo,marca,preco,cor,dpi,tamanho)
+            nmouse.save()
+            break
 
-        ntecl = Teclado(nnum,estoque,cat,modelo,marca,preco,cor,tipo,mil_toques)
-        ntecl.save()
+        else:  # cat == teclado
+            tipo = input("tipo: 0 - membrana 1 - mecânico").strip()
+            mil_toques = input("durabilidade (milhões de toques) :").strip()
+            if not(mil_toques.isnumeric() and tipo in ['0', '1']):
+                continue
+            tipos = ['membrana','mecânico']
+            tipo = tipos[int(tipo)]
+            mil_toques = int(mil_toques)
+
+            ntecl = Teclado(nnum,estoque,cat,modelo,marca,preco,cor,tipo,mil_toques)
+            ntecl.save()
+            break
 
 def show_purchase_historic(user):
     if not user.admin:
@@ -252,6 +265,15 @@ def verify_entry(entry):
 
     return entrada
 
+def stock_ops():
+    pass
+def update_product():
+    pass
+def new_admin():
+    pass
+
+def add_stock():
+    pass
 
 APP_FUNCTIONS = {
     1: show_all_products,
@@ -261,5 +283,9 @@ APP_FUNCTIONS = {
     5: show_user_purchase_historic,
     6: register_product,
     7: show_purchase_historic,
-    8: view_users
+    8: view_users,
+    9: stock_ops,
+    10: update_product,
+    11: new_admin,
+    12: add_stock
 }
