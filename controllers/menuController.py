@@ -50,7 +50,7 @@ def init_menu(global_vars):
 
 def menu_option_is_not_valid(option: str, admin: bool):
     without_permission = not admin and int(option) > 5
-    option_out_of_range = not option.isnumeric() or int(option) < 0 or int(option) > 8
+    option_out_of_range = not option.isnumeric() or int(option) < 1 or int(option) > 12
 
     return option_out_of_range or without_permission
 
@@ -137,12 +137,26 @@ def view_users(user):
         print('Não autorizado!')
         return
     allUsrs = User.get_all_users()
-    for usr in allUsrs:
-        print("nome:",usr['username'])
-        print("status de admin:",usr['admin'])
-        print("----------------------------------")
-    input("digite qualquer coisa para continuar")
+    while True:
+        for usr in allUsrs:
+            print("nome:",usr['username'])
+            print("status de admin:",usr['admin'])
+            print("----------------------------------")
+        print("[nome do cliente] -> ver histórico do cliente")
+        print("[enter] (vazio) -> voltar")
 
+        res = input(":")
+        if res =='':
+            break
+        index = User.find_user_in_database(res)
+        usrinfo = allUsrs[index]
+        tusr = User(usrinfo['username'],usrinfo["password"],usrinfo["admin"])
+        print("-----------------")
+        print(tusr.nome,":")
+        print("-")
+        tusr.show_own_purchase_historic()
+        input("qualquer coisa para continuar")
+        print("-")
 def register_product(user): #model save
     if not user.admin:
         print('Não autorizado!')

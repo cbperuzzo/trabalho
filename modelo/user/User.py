@@ -39,7 +39,7 @@ class User:
         all_users = User.get_all_users()
         
         for registered_user in all_users:
-            if registered_user['username'] == username:
+            if registered_user['username'].strip().upper() == username.strip().upper():
                 return all_users.index(registered_user)
         
         return -1
