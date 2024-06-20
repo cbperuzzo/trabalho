@@ -1,9 +1,9 @@
 from modelo.produtos.Produtos import Produto,Mouse,Monitor,Teclado
 from modelo.produtos.Produtos import CATEGORIAS,product_list
+from modelo.stock.StockOps import new_operaion,operationsList
 from modelo.user.User import User
 from  modelo.erros.Erros import *
-from controllers.userController import indexUser
-from utils.text import print_line, isFloatable
+from utils.text import isFloatable
 
 
 def init_menu(global_vars):
@@ -24,7 +24,7 @@ def init_menu(global_vars):
             print('6 - Cadastrar novo Produto')
             print('7 - Mostrar todo o histórico de compras')
             print('8 - ver clientes')
-            print('9 - adicionar estoque')
+            print('9 - adicionar/ver estoque')
             print('10 - editar produtos')
             print('11 - elevar usuário a admin')
             print('12 - histórico de adição ao estoque')
@@ -279,14 +279,54 @@ def verify_entry(entry):
 
     return entrada
 
-def stock_ops():
-    pass
+# * new admin only functions
+def stock_ops(user):
+    if not user.admin:
+        print('Não autorizado!')
+        return
+    while True:
+        Produto.show_all_with_stock()
+
+        print("[id oo produto] -> seleciona produto")
+        print("[enter] (vazio) -> voltar")
+
+        res = input(":")
+        if res == '':
+            break
+        try:
+            res = int(res.strip())
+        except:
+            print("valor inválido")
+            continue
+        if not (res>=0 and res<len(product_list)):
+            continue
+
+        val = input("quantos produtos devem ser adicionados:")
+        try:
+            val = int(val.strip())
+        except:
+            print("valor inválido")
+            continue
+
+        cst = input("custo da operação:")
+        try:
+            cst = float(cst.strip())
+        except:
+            print("valor inválido")
+            continue
+
+        product_list[res].estoque += val
+        Produto.update_products_db()
+
+        new_operaion(res,val,cst)
+
+
 def update_product():
     pass
 def new_admin():
     pass
 
-def add_stock():
+def view_stock_ops():
     pass
 
 APP_FUNCTIONS = {
@@ -301,5 +341,5 @@ APP_FUNCTIONS = {
     9: stock_ops,
     10: update_product,
     11: new_admin,
-    12: add_stock
+    12: view_stock_ops()
 }

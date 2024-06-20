@@ -41,12 +41,25 @@ class Produto:
         print(f'{self.id_num} - {self.marca} | {self.modelo}')
         print(f'R${self.preco:.2f}')
         print(f'Cor: {self.cor}')
+
+    def show_info_with_stock(self):
+        print(f'{self.id_num} - {self.marca} | {self.modelo}')
+        print(f'R${self.preco:.2f}')
+        print(f'Cor: {self.cor}')
+        print(f'quantia em estoque: {self.estoque}')
     
     @staticmethod
     def show_all():
         print_line(40)
         for produto in product_list:
             produto.show_info()
+            print_line(40)
+
+    @staticmethod
+    def show_all_with_stock():
+        print_line(40)
+        for produto in product_list:
+            produto.show_info_with_stock()
             print_line(40)
     
     @staticmethod
