@@ -1,0 +1,20 @@
+Index: controllers/userController.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from modelo.User import User\n\n# curuser = \"\"  #não poder usuário com nome vazio, não podem usuários com o mesmo nome\n# admin = True\n\ndef indexUser(): #gera maneiras de acessar a aplicação, associando um valor válido a curuser e definindo admin como true ou false\n    while True:\n        print(\"registrar [reg] - login [log]\")\n        res = input().upper().strip()\n\n        if(res == \"REG\"):\n            if register():\n                break\n        elif(res == \"LOG\"):\n            if log():\n                break\n        else:\n            \"ação não encontrada, tente novamente\"\n\ndef log():\n    while True:\n        nome = input(\"nome:\")\n        senha = input(\"senha:\")\n        try:\n            adm = User.verify_login(nome,senha)\n            \n            logDone(nome, adm)\n            return True\n        except ValueError as err:\n            print(\"algo deu errado:\",err)\n            res = input(\"voltar [vol] - tentar denovo [any]\")\n            if res.strip().upper() == \"VOL\":\n                return False\n\ndef register():\n    while True:\n        nome = input(\"nome:\")\n        senha = input(\"senha:\")\n        try:\n            nuser = User(nome, senha)\n            nuser.save()\n            logDone(nuser.nome)\n            return True\n        except ValueError as err:\n            print(\"algo deu errado:\",err)\n            res = input(\"voltar [vol] - tentar denovo [any]\")\n            if res.strip().upper() == \"VOL\":\n                return False\n\ndef logDone(nome, adm):\n    print(nome)\n    print('curuser 1:',curuser)\n    curuser = nome\n    print('curuser 2:',curuser)\n    admin = adm
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/controllers/userController.py b/controllers/userController.py
+--- a/controllers/userController.py	
++++ b/controllers/userController.py	
+@@ -1,7 +1,7 @@
+ from modelo.User import User
+ 
+-# curuser = ""  #não poder usuário com nome vazio, não podem usuários com o mesmo nome
+-# admin = True
++curuser = ""  #não poder usuário com nome vazio, não podem usuários com o mesmo nome
++admin = True
+ 
+ def indexUser(): #gera maneiras de acessar a aplicação, associando um valor válido a curuser e definindo admin como true ou false
+     while True:
