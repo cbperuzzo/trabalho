@@ -15,9 +15,17 @@ class User:
         self.senha = senha
         self.admin = admin
         self.carrinho = []
-        
 
-    def save(self) -> None:
+    def ascend(self):
+        allUsr = User.get_all_users()
+
+        index = User.find_user_in_database(self.nome)
+        allUsr[index] = self
+
+        with open(USERS_DB_PATH, 'w') as write_file:
+            json.dump(allUsr, write_file)
+
+    def save(self) -> None: # algo de errado
         user_login = {
             'username': self.nome,
             'password': self.senha,
@@ -43,6 +51,7 @@ class User:
                 return all_users.index(registered_user)
         
         return -1
+
 
     @staticmethod
     def verify_login(username: str, password: str) -> bool:

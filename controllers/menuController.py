@@ -397,9 +397,34 @@ def update_product(user):
             break
 
 
-def new_admin():
-    pass
+def new_admin(user):
+    if not user.admin:
+        print('Não autorizado!')
+        return
+    while True:
+        allUser = User.get_all_users()
+        for item  in allUser:
+            if not item['admin']:
+                print("nome:",item['username'])
+                print("status de admin: False")
 
+        print("[nome do usuário] -> promove o usuário a admin")
+        print("[enter] (vazio) -> voltar")
+        r = input("").strip().upper()
+        index = User.find_user_in_database(r)
+        if index == -1:
+            print("usuário não encontrado")
+            continue
+        usinf = allUser[index]
+        print("---------------")
+        print("o usuário",usinf["username"],"será elevado a admin")
+        r = input("para confirmar digite: CONFIRMAR")
+        if r != "CONFIRMAR":
+            print("operação cancelada")
+        else:
+            print("usuário elevado ")
+            el = User(usinf["username"],usinf["password"],usinf["admin"])
+            el.ascend()
 def view_stock_ops():
     pass
 
