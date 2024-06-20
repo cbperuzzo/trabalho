@@ -318,7 +318,8 @@ def stock_ops(user):
         product_list[res].estoque += val
         Produto.update_products_db()
 
-        new_operaion(res,val,cst)
+        stk = StockOps(res,val,cst)
+        stk.save()
         print("operação realizada com sucesso")
         print("- \n digite qualquer coisa para continuar")
 
@@ -437,14 +438,14 @@ def view_stock_ops(user):
     if not user.admin:
         print('Não autorizado!')
         return
-    lis = get_ops_list()
+    lis = StockOps.get_ops_list()
     for item in lis:
         print(product_list[item["prod_id"]].marca,"|",product_list[item["prod_id"]].modelo)
         print("quantidade comprada:",item["amount"])
         print("valor total pago:",item["cost"])
         print(item["datetime"])
         print("----------------------------------------------------")
-    print("total gasto em todas as operações:",get_total_cost())
+    print("total gasto em todas as operações:",StockOps.get_total_cost())
     print("- - - ")
     input("- \nqualquer coisa para voltar")
 
