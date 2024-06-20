@@ -49,8 +49,11 @@ def init_menu(global_vars):
     return back
 
 def menu_option_is_not_valid(option: str, admin: bool):
-    without_permission = not admin and int(option) > 5
-    option_out_of_range = not option.isnumeric() or int(option) < 1 or int(option) > 12
+    try:
+        without_permission = not admin and int(option) > 5
+        option_out_of_range = not option.isnumeric() or int(option) < 1 or int(option) > 12
+    except ValueError:
+        return True
 
     return option_out_of_range or without_permission
 
