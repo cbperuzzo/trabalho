@@ -321,8 +321,82 @@ def stock_ops(user):
         new_operaion(res,val,cst)
 
 
-def update_product():
-    pass
+def update_product(user):
+    if not user.admin:
+        print('Não autorizado!')
+        return
+    while True:
+        Produto.show_all()
+
+        print("[id oo produto] -> seleciona produto")
+        print("[enter] (vazio) -> voltar")
+
+        res = input(":")
+        if res == '':
+            break
+        try:
+            res = int(res.strip())
+        except:
+            print("valor inválido")
+            continue
+        if not (res >= 0 and res < len(product_list)):
+            continue
+        pro = product_list[res]
+        pro.show_info()
+        print("---------------------")
+        print("!!! oque for digitado substituirá a iformação antiga !!!")
+        while True:
+            nmodelo = input("modelo:").strip()
+            nmarca = input("marca:").strip()
+            preco = input("preço:").strip()
+            cor = input("cor:").strip()
+            if not (isFloatable(preco)):
+                print("preço tem que ser um float")
+                continue
+            preco = float(preco)
+
+            if pro.categoria == "mouse":
+                ndpi = input("dpi:").strip()
+                ntam = input("tamanho:").strip()
+                if not (isFloatable(ntam) and ndpi.isnumeric()):
+                    print("tamanho e dpi devem ser valores numéricos")
+                    continue
+                ndpi = int(ndpi)
+                ntam = float(ntam)
+
+                nmous= Mouse(pro.id_num, pro.estoque, pro.categoria, nmodelo, nmarca, preco, cor,ndpi,ntam)
+                product_list[res] = nmous
+                Produto.update_products_db()
+
+            if pro.categoria == "teclado":
+                tipo = input("tipo: 0 - membrana 1 - mecânico:").strip()
+                milt = input("durabilidade (milhões de toque)").strip()
+                if not (tipo in ['1','0'] and milt.isnumeric()):
+                    print("tipo inválido ou durabilidade não é um valor inteiro")
+                    continue
+                tipos = ['membrana', 'mecânico']
+                tipo = tipos[int(tipo)]
+                milt = int(milt)
+
+                ntec = Teclado(pro.id_num, pro.estoque, pro.categoria, nmodelo, nmarca, preco, cor, tipo, milt)
+                product_list[res] = ntec
+                Produto.update_products_db()
+
+            if pro.categoria == "monitor":
+                hz = input("frequência(hz)").strip()
+                pol = input("polegadas").strip()
+                if not(isFloatable(hz) and isFloatable(pol)):
+                    print("freqência e ou polegadas não são valores númericos")
+                    continue
+                hz = float(hz)
+                pol = float(pol)
+
+                nmon = Monitor(pro.id_num,pro.estoque,pro.categoria,nmodelo,nmarca,preco,cor,pol,hz)
+                product_list[res] = nmon
+                Produto.update_products_db()
+            break
+
+
 def new_admin():
     pass
 
