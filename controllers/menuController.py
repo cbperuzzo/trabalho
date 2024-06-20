@@ -1,6 +1,6 @@
 from modelo.produtos.Produtos import Produto,Mouse,Monitor,Teclado
 from modelo.produtos.Produtos import CATEGORIAS,product_list
-from modelo.stock.StockOps import new_operaion,operationsList
+from modelo.stock.StockOps import *
 from modelo.user.User import User
 from  modelo.erros.Erros import *
 from utils.text import isFloatable
@@ -23,7 +23,7 @@ def init_menu(global_vars):
             print('Painel de admin')
             print('6 - Cadastrar novo Produto')
             print('7 - Mostrar todo o histórico de compras')
-            print('8 - ver clientes')
+            print('8 - ver clientes/histórico do cliente')
             print('9 - adicionar/ver estoque')
             print('10 - editar produtos')
             print('11 - elevar usuário a admin')
@@ -145,7 +145,7 @@ def view_users(user):
         print("[nome do cliente] -> ver histórico do cliente")
         print("[enter] (vazio) -> voltar")
 
-        res = input(":")
+        res = input("")
         if res =='':
             break
         index = User.find_user_in_database(res)
@@ -290,7 +290,7 @@ def stock_ops(user):
         print("[id oo produto] -> seleciona produto")
         print("[enter] (vazio) -> voltar")
 
-        res = input(":")
+        res = input("")
         if res == '':
             break
         try:
@@ -319,6 +319,8 @@ def stock_ops(user):
         Produto.update_products_db()
 
         new_operaion(res,val,cst)
+        print("operação realizada com sucesso")
+        print("- \n digite qualquer coisa para continuar")
 
 
 def update_product(user):
@@ -402,16 +404,20 @@ def new_admin(user):
         print('Não autorizado!')
         return
     while True:
+        print("usuários não admins:")
         allUser = User.get_all_users()
         for item  in allUser:
             if not item['admin']:
                 print("nome:",item['username'])
                 print("status de admin: False")
+            print("--------------------------")
 
         print("[nome do usuário] -> promove o usuário a admin")
         print("[enter] (vazio) -> voltar")
         r = input("").strip().upper()
         index = User.find_user_in_database(r)
+        if r == "":
+            break
         if index == -1:
             print("usuário não encontrado")
             continue
@@ -421,12 +427,26 @@ def new_admin(user):
         r = input("para confirmar digite: CONFIRMAR")
         if r != "CONFIRMAR":
             print("operação cancelada")
+            input("- \nqualquer coisa para continuar")
         else:
-            print("usuário elevado ")
             el = User(usinf["username"],usinf["password"],usinf["admin"])
             el.ascend()
-def view_stock_ops():
-    pass
+            print("usuário elevado ")
+            input("- \nqualquer coisa para continuar")
+def view_stock_ops(user):
+    if not user.admin:
+        print('Não autorizado!')
+        return
+    lis = get_ops_list()
+    for item in lis:
+        print(product_list[item["prod_id"]].marca,"|",product_list[item["prod_id"]].modelo)
+        print("quantidade comprada:",item["amount"])
+        print("valor total pago:",item["cost"])
+        print(item["datetime"])
+        print("----------------------------------------------------")
+    print("total gasto em todas as operações:",get_total_cost())
+    print("- - - ")
+    input("- \nqualquer coisa para voltar")
 
 APP_FUNCTIONS = {
     1: show_all_products,
@@ -440,5 +460,5 @@ APP_FUNCTIONS = {
     9: stock_ops,
     10: update_product,
     11: new_admin,
-    12: view_stock_ops()
+    12: view_stock_ops
 }

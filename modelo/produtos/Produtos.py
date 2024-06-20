@@ -172,9 +172,6 @@ class Produto:
             product_list[product_list.index(item[0])].estoque -= item[1]
         
         Produto.update_products_db()
-    @staticmethod
-    def stock_operation(val:int):
-        pass
         
     @staticmethod
     def update_products_db():

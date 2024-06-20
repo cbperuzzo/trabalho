@@ -20,7 +20,7 @@ class User:
         allUsr = User.get_all_users()
 
         index = User.find_user_in_database(self.nome)
-        allUsr[index] = self
+        allUsr[index]["admin"] = True
 
         with open(USERS_DB_PATH, 'w') as write_file:
             json.dump(allUsr, write_file)
@@ -64,7 +64,7 @@ class User:
         if all_users[user_index]['password'] != password:
             raise ValueError('Senha incorreta.')
         
-        return all_users[user_index]['admin']
+        return bool(all_users[user_index]['admin'])
         
     @staticmethod
     def get_all_users() -> List[Dict[str, str]]:

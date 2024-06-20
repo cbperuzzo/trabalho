@@ -24,3 +24,13 @@ def new_operaion(prod_num,amount,cost):
 
 
 set_operation_list()
+
+def get_total_cost():
+    sum = 0
+    for item in operationsList:
+        sum += item["cost"]
+    return sum
+
+def get_ops_list():
+    set_operation_list()
+    return operationsList
