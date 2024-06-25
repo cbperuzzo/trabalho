@@ -26,8 +26,9 @@ def init_menu(global_vars):
             print('8 - ver clientes/histórico do cliente')
             print('9 - adicionar/ver estoque')
             print('10 - editar produtos')
-            print('11 - elevar usuário a admin')
-            print('12 - histórico de adição ao estoque')
+            print('11 - deletar produtos')
+            print('12 - elevar usuário a admin')
+            print('13 - histórico de adição ao estoque')
         
         print('F - Fechar o programa')
 
@@ -51,7 +52,7 @@ def init_menu(global_vars):
 def menu_option_is_not_valid(option: str, admin: bool):
     try:
         without_permission = not admin and int(option) > 5
-        option_out_of_range = not option.isnumeric() or int(option) < 1 or int(option) > 12
+        option_out_of_range = not option.isnumeric() or int(option) < 1 or int(option) > 13
     except ValueError:
         return True
 
@@ -452,6 +453,40 @@ def view_stock_ops(user):
     print("- - - ")
     input("- \nqualquer coisa para voltar")
 
+def delete_product(user):
+    if not user.admin:
+        print('Não autorizado!')
+        return
+    while True:
+        Produto.show_all()
+
+        print("[id oo produto] -> seleciona produto")
+        print("[enter] (vazio) -> voltar")
+
+        res = input(":")
+        if res == '':
+            break
+        try:
+            res = int(res.strip())
+        except:
+            print("valor inválido")
+            continue
+        if not (res >= 0 and res < len(product_list)):
+            continue
+        pro = product_list[res]
+        print("---------------------")
+        pro.show_info()
+        print("---------------------")
+        r = input("para deletar digite: DELETAR")
+        if r != "DELETAR":
+            print("operação cancelada")
+            input("- \nqualquer coisa para continuar")
+        else:
+            pro.delete_from_list()
+            print("Produto deletado com sucesso")
+            input("- \nqualquer coisa para continuar")
+
+
 APP_FUNCTIONS = {
     1: show_all_products,
     2: show_category_products,
@@ -463,6 +498,7 @@ APP_FUNCTIONS = {
     8: view_users,
     9: stock_ops,
     10: update_product,
-    11: new_admin,
-    12: view_stock_ops
+    11: delete_product,
+    12: new_admin,
+    13: view_stock_ops
 }

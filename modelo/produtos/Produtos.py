@@ -37,6 +37,17 @@ class Produto:
         product_list.append(self)
         Produto.update_products_db()
 
+    @staticmethod
+    def update_product_list():
+        global product_list
+        product_list = Produto.get_products_as_objects()
+
+    def delete_from_list(self):
+        product_list.pop(self.id_num)
+        Produto.update_products_db()
+        Produto.update_product_list()
+
+
     def show_info(self):
         print(f'{self.id_num} - {self.marca} | {self.modelo}')
         print(f'R${self.preco:.2f}')
@@ -297,6 +308,5 @@ class Monitor(Produto):
             }
 
         return product_json
-
 
 product_list = Produto.get_products_as_objects()
