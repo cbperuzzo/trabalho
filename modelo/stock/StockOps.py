@@ -1,5 +1,6 @@
 import json
 from utils.text import get_current_formated_date_time
+from modelo.produtos.Produtos import product_list
 
 operationsList = list()
 
@@ -27,7 +28,9 @@ class StockOps():
             product_json = json.load(read_file)
         operationsList.clear()
         for item in product_json:
-            operationsList.append(item)
+            prod_id = item['prod_id']
+            if product_list[prod_id].modelo != 'produto inexistente':
+                operationsList.append(item)
 
     def save(self):
         op = dict()

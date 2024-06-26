@@ -401,6 +401,8 @@ def update_product(user):
                 nmon = Monitor(pro.id_num,pro.estoque,pro.categoria,nmodelo,nmarca,preco,cor,pol,hz)
                 product_list[res] = nmon
                 Produto.update_products_db()
+            print('Produto alterado com sucesso!')
+            input('Qualquer coisa para continuar')
             break
 
 

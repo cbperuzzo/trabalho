@@ -43,7 +43,9 @@ class Produto:
         product_list = Produto.get_products_as_objects()
 
     def delete_from_list(self):
-        product_list.pop(self.id_num)
+        x = self.id_num
+        self.modelo = 'produto inexistente'
+        product_list[x] = self
         Produto.update_products_db()
         Produto.update_product_list()
 
@@ -63,8 +65,9 @@ class Produto:
     def show_all():
         print_line(40)
         for produto in product_list:
-            produto.show_info()
-            print_line(40)
+            if produto.modelo != 'produto inexistente':
+                produto.show_info()
+                print_line(40)
 
     @staticmethod
     def show_all_with_stock():
