@@ -172,7 +172,7 @@ class Produto:
     def check_stock(product, quantity: int) -> None:
 
         if product == None:
-            raise ProductNotFoundError(product.id_num)
+            raise ProductNotFoundError()
 
         if product.estoque < quantity:
             raise InsufficientStockError(product.estoque)

@@ -81,7 +81,7 @@ class User:
                 product_already_in_cart = True
                 product_cart_index = self.carrinho.index(item)
                 # quantity += item[1]
-
+        
         Produto.check_stock(product, quantity)
 
         if product_already_in_cart:
