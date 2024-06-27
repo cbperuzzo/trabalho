@@ -161,6 +161,7 @@ def view_users(user):
         tusr.show_own_purchase_historic()
         input("qualquer coisa para continuar")
         print("-")
+        
 def register_product(user): #model save
     if not user.admin:
         print('Não autorizado!')
